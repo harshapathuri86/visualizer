@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
+import Index from './utils/index'
+import { Route } from 'react-router-dom';
+import dijkstra from './graphalgorithms/dijkstra/dijkstra'
+import Search from './searchingalorithms/searchingvisualiser'
+import Sort from './sortingalgorithms/sortingvisualiser'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  render() {
+    return (
+      <div>
+        <h6>Algorithm Visualizer you can see this in every page</h6>
+        <Route exact path="/" component={Index} />
+        <Route path="/sort" component={Sort} />
+        <Route path="/search" component={Search} />
+        <Route path="/dijkstra" component={dijkstra} />
 
-export default App;
+      </div>
+    );
+  }
+}
