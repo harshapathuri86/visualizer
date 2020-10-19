@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Input, Button, Container } from "semantic-ui-react";
 
-const Addedge = (props) => {
+const Deleteedge = (props) => {
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
     const [w, setW] = useState("");
@@ -32,12 +32,12 @@ const Addedge = (props) => {
                         label: w,
                     };
 
-                    props.onAddedge(edge);
+                    props.onDeleteedge(edge);
                 }}
             >
-                Add Edge
+                Delete Edge
         </Button>
         </Container>
     );
 };
-export default Addedge;
+export default Deleteedge;

@@ -15,7 +15,7 @@ const Solve = (props) => {
                             min={1} max={10} step={1}
                             placeholder="s" type="range"
                             onChange={(e) => settime(e.target.value)}></input>
-                        <span>{time} s</span>
+                        <span className="mr-3" >{time} s</span>
                     </>
                 )
             }

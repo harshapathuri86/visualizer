@@ -2,20 +2,20 @@ import React from "react";
 import { useState } from "react";
 import { Container, Input, Button } from "semantic-ui-react";
 
-const Deleteedge = (props) => {
+const Deletenode = (props) => {
     const [id, setid] = useState("");
     return (
         <Container>
             <Input value={id} placeholder="node" onChange={(e) => setid(e.target.value)}></Input>
-            <Button disabled={!id} color="red" onClick={() => {
+            <Button color='red' disabled={!id} onClick={() => {
                 try {
-                    props.onDelete(id);
+                    props.onDeletenode(id);
                 }
                 catch (e) {
                     alert(e.message);
                 }
-            }} >Delete</Button>
+            }} >Delete node</Button>
         </Container>
     );
 };
-export default Deleteedge;
+export default Deletenode;
