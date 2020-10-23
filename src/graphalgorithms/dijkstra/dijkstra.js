@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Graph from "react-graph-vis";
-import { Container, Grid, Divider, Segment, Radio } from "semantic-ui-react";
+import { Container, Grid, Divider, Segment, Radio, GridRow, GridColumn } from "semantic-ui-react";
 import Addedge from "./addedge";
 import Addnode from "./node";
 import Deleteedge from "./deleteedge";
@@ -68,103 +68,123 @@ function Dijkstra() {
         height: "100%",
     };
     return (
-        <Container style={{ marginTop: "3em" }}>
-            <Grid divided="vertically">
-                <Grid.Row columns={2} >
+        <Container style={{ marginTop: "3em" }}  >
+            <Grid padded celled >
+                <Grid.Row columns={3} divided >
+                    <Grid.Column width={4}>
+                        <Toggle label="bidirectional" onChange={(val) => {
+                            setbi(val);
+                            if (val) {
+                                ref.current.Network.setOptions({
+                                    edges: {
+                                        smooth: true,
+                                        arrows: { to: { enabled: false } },
+                                    },
+                                });
+                            } else {
+                                ref.current.Network.setOptions({
+                                    edges: {
+                                        smooth: true,
+                                        arrows: { to: { enabled: true } },
+                                    },
+                                });
+                            }
+                        }} />
+                        <Divider />
+                        <Addnode onAddnode={(node) => ref.current.nodes.add(node)} />
+                        <Divider />
+                        <Deletenode onDeletenode={(id) => { deletenode(id, ref.current); }} />
+
+                    </Grid.Column>
                     <Grid.Column width={6}>
-                        <Segment>
-                            <Toggle label="bidirectional" onChange={(val) => {
-                                setbi(val);
-                                if (val) {
-                                    ref.current.Network.setOptions({
-                                        edges: {
-                                            smooth: false,
-                                            arrows: { to: { enabled: false } },
-                                        },
-                                    });
-                                } else {
-                                    ref.current.Network.setOptions({
-                                        edges: {
-                                            smooth: true,
-                                            arrows: { to: { enabled: true } },
-                                        },
-                                    });
-                                }
-                            }} />
-                            <Divider />
-                            <Addnode onAddnode={(node) => ref.current.nodes.add(node)} />
-                            <Divider />
-                            <Deletenode onDeletenode={(id) => { deletenode(id, ref.current); }} />
-                            <Divider />
-                            <Addedge onAddedge={(edge) => { addedge(edge, ref.current, false); }} />
-                            <Divider />
-                            <Deleteedge onDeleteedge={(edge) => { deleteedge(edge, ref.current); }} />
-                            <Divider />
-                            <Solve solving={solving} solve={(e, s) => {
+                        <Addedge onAddedge={(edge) => { addedge(edge, ref.current, false); }} />
+                        <Divider />
+                        <Deleteedge onDeleteedge={(edge) => {
+                            deleteedge(edge, ref.current, bi);
+                        }} />
+                        {/* <Divider /> */}
+                    </Grid.Column>
+                    <Grid.Column >
+                        <Solve solving={solving} solve={(start, end) => {
+                            setsolving(true);
+                            console.log(start, end, bi);
+                            const [path, cost] = solveDijkstra(
+                                ref.current.nodes.get(),
+                                ref.current.edges.get(),
+                                start, end, bi
+                            );
+                            resetNetwork(ref.current);
+                            color(path, "#00ff00", ref.current, bi);
+                            if (cost !== Infinity)
+                                setsol(path.join("->") + " cost:" + cost);
+                            else {
+                                setsol("No path exists from " + start + " to " + end);
+                                resetNetwork(ref.current);
+                            }
+                            setsolving(false);
+                        }} >Run Dijkstra</Solve>
+                        <Divider />
+                        <Solve
+                            solving={solving}
+                            time={true}
+                            solve={async (start, end, t) => {
                                 setsolving(true);
-                                console.log(e, s, bi);
-                                const [path, cost] = solveDijkstra(
+                                let state = initialstate(
                                     ref.current.nodes.get(),
                                     ref.current.edges.get(),
-                                    e, s, bi
+                                    start
                                 );
-                                resetNetwork(ref.current);
-                                color(path, "#ff00ff", ref.current, bi);
-                                setsol(path.join("->") + " cost:" + cost);
-                                setsolving(false);
-                            }} >Run Dijkstra</Solve>
-                            <Divider />
-                            <Solve
-                                solving={solving}
-                                time={true}
-                                solve={async (start, end, t) => {
-                                    setsolving(true);
-                                    let state = initialstate(
-                                        ref.current.nodes.get(),
-                                        ref.current.edges.get(),
-                                        start
+                                while (state.unvisited.length > 1) {
+                                    resetNetwork(ref.current);
+                                    state = nextstep(state, ref.current.edges.get(), bi);
+                                    setsol(
+                                        "Visited: " +
+                                        state.visited.map((n) => n.id).join(" ") +
+                                        " , " +
+                                        "Unvisited: " +
+                                        state.unvisited.map((n) => n.id).join(" ")
                                     );
-                                    while (state.unvisited.length > 1) {
-                                        state = nextstep(state, ref.current.edges.get(), bi);
-                                        resetNetwork(ref.current);
-                                        setsol(
-                                            "Visited: " +
-                                            state.visited.map((n) => n.id).join(" ") +
-                                            " , " +
-                                            "Unvisited: " +
-                                            state.unvisited.map((n) => n.id).join(" ")
-                                        );
-                                        color(
-                                            state.visited.map((n) => n.id),
-                                            "red",
-                                            ref.current,
-                                            bi
-                                        );
-                                        await sleep(t * 1000);
-                                    }
-                                    const [path, cost] = getpath(state.table, end);
-                                    color(path, "#ff00ff", ref.current, bi);
-                                    setsol(path.join("->") + " cost: " + cost);
-                                    setsolving(false);
-                                }}
-                            >
-                                Dijkstra Steps</Solve>
-                        </Segment>
+                                    color(
+                                        state.visited.map((n) => n.id),
+                                        "red",
+                                        ref.current,
+                                        bi
+                                    );
+                                    await sleep(t * 1000);
+                                }
+                                const [path, cost] = getpath(state.table, end);
+                                color(path, "#00ff00", ref.current, bi);
+                                if (cost !== Infinity)
+                                    setsol(path.join("->") + " cost:" + cost);
+                                else {
+                                    setsol("No path exists from " + start + " to " + end);
+                                    resetNetwork(ref.current);
+                                }
+
+                                setsolving(false);
+
+                            }}
+                        >
+                            Dijkstra Steps</Solve>
+                        {/* <Divider /> */}
                     </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns={2} >
                     <Grid.Column width={10}>
-                        <Segment>
-                            <Graph
-                                style={{ height: "500px", width: "100%" }}
-                                graph={graph}
-                                options={options}
-                                ref={ref}
-                            />
-                        </Segment>
                         {sol && <Segment>{sol}</Segment>}
+                        <Graph
+                            style={{ height: "500px", width: "100%" }}
+                            graph={graph}
+                            options={options}
+                            ref={ref}
+                        />
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
-        </Container>
+        </Container >
     );
 }
 

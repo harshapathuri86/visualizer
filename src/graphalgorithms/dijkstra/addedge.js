@@ -24,7 +24,7 @@ const Addedge = (props) => {
                 type="number"
             ></Input>
             <Button
-                disabled={!from || !to | !w}
+                disabled={!from || !to | !w | w < 0}
                 onClick={() => {
                     const edge = {
                         from: from,
@@ -37,7 +37,7 @@ const Addedge = (props) => {
             >
                 Add Edge
         </Button>
-        </Container>
+        </Container >
     );
 };
 export default Addedge;

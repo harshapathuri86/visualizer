@@ -24,14 +24,13 @@ const Deleteedge = (props) => {
                 type="number"
             ></Input>
             <Button
-                disabled={!from || !to | !w}
+                disabled={!from || !to | !w | w < 0}
                 onClick={() => {
                     const edge = {
                         from: from,
                         to: to,
                         label: w,
                     };
-
                     props.onDeleteedge(edge);
                 }}
             >
