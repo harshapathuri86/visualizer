@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Graph from "react-graph-vis";
-import { Container, Grid, Divider, Segment, Radio } from "semantic-ui-react";
+import { Container, Grid, Divider, Segment, Radio, Table, Message, Label } from "semantic-ui-react";
 import Addedge from "./addedge";
 import Addnode from "./node";
 import Deleteedge from "./deleteedge";
@@ -58,6 +58,9 @@ function Dijkstra() {
     const [sol, setsol] = useState("");
     const [bi, setbi] = useState(false);
     const [solving, setsolving] = useState(false);
+    let ColorArray = new Array(5).fill('white');
+    ColorArray[4] = 'pink';
+    const [V, setV] = useState("");
     const options = {
         layout: {
             hierarchical: false,
@@ -69,7 +72,7 @@ function Dijkstra() {
         height: "100%",
     };
     return (
-        <Container style={{ marginTop: "3em" }}  >
+        <Container style={{ marginTop: "3em" }} inverted bgcolor='red'>
             <Grid padded celled >
                 <Grid.Row columns={3} divided >
                     <Grid.Column width={4}>
@@ -129,14 +132,12 @@ function Dijkstra() {
                             solving={solving}
                             time={true}
                             solve={async (start, end, t) => {
+                                setV(1);
                                 setsolving(true);
+                                // await sleep(1 * 1000);
                                 resetNetwork(ref.current);
                                 let PQ = new PriorityQueue();
                                 // let state = initialstate(nodes, edges, start, PQ, network);
-
-                                // console.log("network", network);
-                                PQ.enqueue(new Node(start, 0));
-                                // console.log("edges", edges);
                                 const state = ref.current.nodes.map((node) => {
                                     return {
                                         id: node.id,
@@ -144,15 +145,27 @@ function Dijkstra() {
                                         previous: null,
                                     };
                                 });
+
+                                // console.log("network", network);
+                                PQ.enqueue(new Node(start, 0));
+                                setsol(
+                                    "PRIORITY QUEUE : " + PQ.values.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                );
+                                await sleep(t * 1000);
+                                // console.log("edges", edges);
                                 // console.log("edgesdup", edgesdup);
                                 console.log("state", state);
                                 // await sleep(3 * 1000);
+                                setV(2);
                                 while (PQ.values.length >= 1) {
+                                    setV(2);
+                                    await sleep(t * 250);
                                     let lol = 0;
                                     console.log("pq values", PQ.values);
                                     const nextnode = PQ.dequeue();
                                     const connectednodes = getconnectednodes(nextnode.value, ref.current.edges.get(), bi);
                                     connectednodes.forEach((node) => {
+                                        setV(3);
                                         const ind = findIndex(node.id, state);
                                         if (state[ind].distance > node.distance + nextnode.distance) {
                                             lol = 1;
@@ -176,14 +189,15 @@ function Dijkstra() {
                                             });
                                             PQ.enqueue(new Node(state[ind].id, state[ind].distance));
                                             setsol(
-                                                "PRIORITY QUEUE " + PQ.values.map((n) => n.value).join(" ")
+                                                "PRIORITY QUEUE : " + PQ.values.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                             );
                                             console.log("time", t);
                                         }
 
                                     });
-                                    if (lol === 1) { lol = 0; await sleep(t * 1000); }
+                                    if (lol === 1) { lol = 0; await sleep(t * 750); }
                                 }
+                                setV(4);
                                 const [path, cost] = getpath(state, end);
                                 color(path, "#00ff00", ref.current, bi);
                                 if (cost !== Infinity)
@@ -200,8 +214,8 @@ function Dijkstra() {
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={2} >
-                    <Grid.Column width={10}>
-                        {sol && <Segment>{sol}</Segment>}
+                    <Grid.Column width={8}>
+                        {sol && <Segment color='green' inverted>{sol}</Segment>}
                         <Graph
                             style={{ height: "500px", width: "100%" }}
                             graph={graph}
@@ -209,8 +223,25 @@ function Dijkstra() {
                             ref={ref}
                         />
                     </Grid.Column>
-                    <Grid.Column width={6}>
-
+                    <Grid.Column width={8}>
+                        <Table.Row ><Table.Cell><Label ribbon color='green'>Dijkstra's Algorithm</Label></Table.Cell></Table.Row>
+                        <Table >
+                            <Table.Body>
+                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 4) % 5]} >
+                                    <pre>{"d - distance array of each node from start\nPQ - Priority Queue"}</pre>
+                                </Table.Cell></Table.Row>
+                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 3) % 5]} >
+                                    <pre>{"for(int i=0;i<nodes;i++){\n\td[i]=Infinity\n}\nd[Start]=0\nPQ.push(Start)"}</pre>
+                                </Table.Cell></Table.Row>
+                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 2) % 5]} >
+                                    <pre>{"while(PQ.length>0){\n\t A = PQ.pop()\n\tfor each NEIGHBOUR(B) of A {"}</pre>
+                                </Table.Cell></Table.Row>
+                                < Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 1) % 5]} >
+                                    <pre>{"\t\tif(d[B]<(d[A]+distance(A-B))){\n\t\t\td[B]=d[A]+distance(A-B))\n\t\t\tPQ.push({B,d[B])\n\t\t}\n\t}\n}"}</pre>
+                                </Table.Cell></Table.Row>
+                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V) % 5]} ><pre>{"return distance[End]"}</pre> </Table.Cell></Table.Row>
+                            </Table.Body>
+                        </Table>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
