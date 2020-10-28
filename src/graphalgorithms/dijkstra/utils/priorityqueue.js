@@ -27,7 +27,7 @@ class PriorityQueue {
             //get parent index via formula
             let parentIndex = Math.floor((index - 1) / 2);
             //if values is greater than parent, swap the two
-            if (this.values[parentIndex].distance < this.values[index].distance) {
+            if (this.values[parentIndex].distance > this.values[index].distance) {
                 //swap with helper method
                 this.swap(index, parentIndex);
                 //change current index to parent index

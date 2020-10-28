@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Graph from "react-graph-vis";
-import { Container, Grid, Divider, Segment, Radio, Table, Message, Label } from "semantic-ui-react";
+import { Container, Grid, Divider, Segment, Radio, Table, Label } from "semantic-ui-react";
 import Addedge from "./addedge";
 import Addnode from "./node";
 import Deleteedge from "./deleteedge";
@@ -19,21 +19,21 @@ export function sleep(ms) {
 
 const graph = {
     nodes: [
-        { id: "A", label: "A" },
+        // { id: "A", label: "A" },
         { id: "B", label: "B" },
-        { id: "C", label: "C" },
-        { id: "D", label: "D" },
+        // { id: "C", label: "C" },
+        // { id: "D", label: "D" },
         { id: "E", label: "E" },
     ],
     edges: [
-        { from: "A", to: "B", label: "6" },
-        { from: "A", to: "D", label: "1" },
-        { from: "B", to: "D", label: "2" },
+        // { from: "A", to: "B", label: "6" },
+        // { from: "A", to: "D", label: "1" },
+        // { from: "B", to: "D", label: "2" },
         { from: "B", to: "E", label: "1" },
-        { from: "D", to: "E", label: "1" },
+        // { from: "D", to: "E", label: "1" },
         { from: "E", to: "B", label: "2" },
-        { from: "C", to: "B", label: "5" },
-        { from: "E", to: "C", label: "5" },
+        // { from: "C", to: "B", label: "5" },
+        // { from: "E", to: "C", label: "5" },
     ]
 };
 
@@ -58,9 +58,11 @@ function Dijkstra() {
     const [sol, setsol] = useState("");
     const [bi, setbi] = useState(false);
     const [solving, setsolving] = useState(false);
-    let ColorArray = new Array(5).fill('white');
+    let ColorArray = [];
+    for (let i = 0; i < 5; i++) ColorArray.push('white');
     ColorArray[4] = 'pink';
     const [V, setV] = useState("");
+    var Valarray = [];
     const options = {
         layout: {
             hierarchical: false,
@@ -148,8 +150,11 @@ function Dijkstra() {
 
                                 // console.log("network", network);
                                 PQ.enqueue(new Node(start, 0));
+                                Valarray = PQ.values;
+                                console.log(PQ.values);
+                                console.log(Valarray);
                                 setsol(
-                                    "PRIORITY QUEUE : " + PQ.values.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                    "PRIORITY QUEUE : " + Valarray.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                 );
                                 await sleep(t * 1000);
                                 // console.log("edges", edges);
@@ -188,8 +193,10 @@ function Dijkstra() {
                                                 }
                                             });
                                             PQ.enqueue(new Node(state[ind].id, state[ind].distance));
+                                            let arr = PQ.values;
+                                            arr.sort(function (a, b) { return a.distance - b.distance });
                                             setsol(
-                                                "PRIORITY QUEUE : " + PQ.values.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                                "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                             );
                                             console.log("time", t);
                                         }

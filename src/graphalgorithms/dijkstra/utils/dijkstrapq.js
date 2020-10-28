@@ -32,7 +32,8 @@ export function getpath(table, end) {
     let path = [];
     console.log("table end", table, end);
     let prev = table[findIndex(end, table)];
-    let cost = prev.distance;
+    let cost = Infinity;
+    if (prev != null) cost = prev.distance;
     while (prev != null) {
         console.log("prev", prev);
         path.push(prev.id);
