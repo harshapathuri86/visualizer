@@ -7,7 +7,6 @@ import Deleteedge from "./deleteedge";
 import Deletenode from "./delete"
 import Solve from "./solve";
 import "./dijkstra.css";
-
 // import remaining files
 import { solveDijkstra, color, getconnectednodes, findIndex, getpath } from "./utils/dijkstrapq";
 import { addedge, deleteedge, deletenode, resetNetwork } from "./utils/network";
@@ -19,21 +18,26 @@ export function sleep(ms) {
 
 const graph = {
     nodes: [
-        // { id: "A", label: "A" },
-        { id: "B", label: "B" },
-        // { id: "C", label: "C" },
-        // { id: "D", label: "D" },
-        { id: "E", label: "E" },
+        { id: "2", label: "2" },
+        { id: "3", label: "3" },
+        { id: "1", label: "1" },
+        { id: "4", label: "4" },
+        { id: "5", label: "5" },
     ],
     edges: [
-        // { from: "A", to: "B", label: "6" },
-        // { from: "A", to: "D", label: "1" },
-        // { from: "B", to: "D", label: "2" },
-        { from: "B", to: "E", label: "1" },
-        // { from: "D", to: "E", label: "1" },
-        { from: "E", to: "B", label: "2" },
-        // { from: "C", to: "B", label: "5" },
-        // { from: "E", to: "C", label: "5" },
+        { from: "1", to: "2", label: "-10" },
+        { from: "2", to: "3", label: "-10" },
+        { from: "3", to: "4", label: "-10" },
+        { from: "4", to: "5", label: "-10" },
+        { from: "5", to: "1", label: "-10" },
+        // { from: "1", to: "2", label: "6" },
+        // { from: "1", to: "4", label: "1" },
+        // { from: "2", to: "4", label: "2" },
+        // { from: "2", to: "5", label: "1" },
+        // { from: "4", to: "5", label: "1" },
+        // { from: "5", to: "2", label: "2" },
+        // { from: "3", to: "2", label: "5" },
+        // { from: "5", to: "3", label: "5" },
     ]
 };
 
@@ -53,17 +57,28 @@ const Toggle = (props) => {
 
 
 function Dijkstra() {
-    console.log("in dijstra");
+    // console.log("in dijstra");
     const ref = useRef();
     const [sol, setsol] = useState("");
     const [bi, setbi] = useState(false);
     const [solving, setsolving] = useState(false);
     let ColorArray = [];
-    for (let i = 0; i < 5; i++) ColorArray.push('white');
-    ColorArray[4] = 'pink';
+    for (let i = 0; i < 8; i++) ColorArray.push('white');
+    ColorArray[7] = 'pink';
     const [V, setV] = useState("");
     var Valarray = [];
     const options = {
+        interaction: { hover: true },
+        manipulation: {
+            enabled: true,
+            // initiallyActive: true,
+            addNode: false,
+            addEdge: false,
+            // editNode: true,
+            editEdge: true,
+            deleteNode: true,
+            deleteEdge: true,
+        },
         layout: {
             hierarchical: false,
         },
@@ -71,13 +86,14 @@ function Dijkstra() {
             color: "#000000",
             smooth: true,
         },
-        height: "100%",
+        // height: "100%",
     };
+
     return (
         <Container style={{ marginTop: "3em" }} inverted bgcolor='red'>
-            <Grid padded celled >
-                <Grid.Row columns={3} divided >
-                    <Grid.Column width={4}>
+            <Grid padded celled container doubling width='100hw'>
+                <Grid.Row stackable columns={3} divided >
+                    <Grid.Column mobile={16} computer={4}>
                         <Toggle label="bidirectional" onChange={(val) => {
                             setbi(val);
                             if (val) {
@@ -102,7 +118,7 @@ function Dijkstra() {
                         <Deletenode onDeletenode={(id) => { deletenode(id, ref.current); }} />
 
                     </Grid.Column>
-                    <Grid.Column width={6}>
+                    <Grid.Column mobile={16} computer={6} >
                         <Addedge onAddedge={(edge) => { addedge(edge, ref.current, false); }} />
                         <Divider />
                         <Deleteedge onDeleteedge={(edge) => {
@@ -110,7 +126,7 @@ function Dijkstra() {
                         }} />
                         {/* <Divider /> */}
                     </Grid.Column>
-                    <Grid.Column >
+                    <Grid.Column computer={6} mobile={16}>
                         <Solve solving={solving} solve={(start, end) => {
                             setsolving(true);
                             console.log(start, end, bi);
@@ -144,42 +160,57 @@ function Dijkstra() {
                                     return {
                                         id: node.id,
                                         distance: node.id === start ? 0 : Infinity,
-                                        previous: null,
+                                        previous: node.id === start ? -1 : null,
                                     };
                                 });
-
                                 // console.log("network", network);
                                 PQ.enqueue(new Node(start, 0));
                                 Valarray = PQ.values;
-                                console.log(PQ.values);
-                                console.log(Valarray);
+                                // console.log(PQ.values);
+                                // console.log(Valarray);
                                 setsol(
                                     "PRIORITY QUEUE : " + Valarray.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                 );
-                                await sleep(t * 1000);
+                                await sleep(t * 1000); //------------------------sleep
                                 // console.log("edges", edges);
                                 // console.log("edgesdup", edgesdup);
-                                console.log("state", state);
+                                // console.log("state", state);
                                 // await sleep(3 * 1000);
                                 setV(2);
                                 while (PQ.values.length >= 1) {
-                                    setV(2);
-                                    await sleep(t * 250);
+                                    console.log("while");
+                                    await sleep(t * 1000);//-----------------------------sleep
                                     let lol = 0;
-                                    console.log("pq values", PQ.values);
+                                    // console.log("pq values", PQ.values);
+                                    setV(3);
                                     const nextnode = PQ.dequeue();
+                                    let arr = PQ.values;
+                                    arr.sort(function (a, b) { return a.distance - b.distance });
+                                    setsol(
+                                        "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{ " + n.distance.toString() + " } ").join("<-")
+                                    );
+                                    await sleep(t * 1000); //-------------------------------sleep
                                     const connectednodes = getconnectednodes(nextnode.value, ref.current.edges.get(), bi);
-                                    connectednodes.forEach((node) => {
-                                        setV(3);
+                                    for (const node of connectednodes) {
+                                        // connectednodes.forEach(async (node) => {
+                                        // console.log("node", node);
+                                        setV(4);
+                                        console.log("for each");
+                                        // await sleep(t * 1000);//-------------------------------sleep
                                         const ind = findIndex(node.id, state);
-                                        if (state[ind].distance > node.distance + nextnode.distance) {
+                                        let sum = node.distance + nextnode.distance;
+                                        console.log("includes", node.id, PQ.values.includes(node));
+                                        if (PQ.values.includes(node) && state[ind].distance > sum) {
+                                            setV(5);
                                             lol = 1;
+                                            // if(state[ind].id===start) {
+                                            //     alert("there is negative cycle in the graph ")
+                                            // }
                                             state[ind].previous = nextnode.value;
-                                            state[ind].distance = node.distance + nextnode.distance;
+                                            state[ind].distance = sum;
                                             ref.current.edges.forEach(async (ed, t) => {
                                                 const val = (ed.to === node.id && ed.from === nextnode.value && node.distance.toString() === ed.label);
-                                                console.log("values", ed, node, nextnode, state[ind], val)
-                                                let sum = node.distance + nextnode.distance;
+                                                // console.log("values", ed, node, nextnode, state[ind], val)
                                                 if (val) {
                                                     ref.current.edges.update({
                                                         ...ed,
@@ -187,9 +218,40 @@ function Dijkstra() {
                                                         width: 2,
                                                         color: "#ff0000",
                                                     });
-                                                    console.log("lol:)", sum);
+                                                    // console.log("lol:)", sum);
+                                                    console.log("if");
                                                     // state[ind].distance  = sum;
-                                                    node.distance = sum;
+                                                }
+                                            });
+                                            PQ.replace(node, sum);
+                                            console.log("pq values", PQ.values);
+                                            // PQ.enqueue(new Node(state[ind].id, state[ind].distance));
+                                            let arr = PQ.values;
+                                            arr.sort(function (a, b) { return a.distance - b.distance });
+                                            setsol(
+                                                "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                            );
+                                            // console.log("time", t);
+                                        }
+                                        else if (state[ind].previous == null) {
+                                            setV(6);
+                                            lol = 1;
+                                            let sum = node.distance + nextnode.distance;
+                                            state[ind].previous = nextnode.value;
+                                            state[ind].distance = sum;
+                                            ref.current.edges.forEach(async (ed, t) => {
+                                                const val = (ed.to === node.id && ed.from === nextnode.value && node.distance.toString() === ed.label);
+                                                // console.log("values", ed, node, nextnode, state[ind], val)
+                                                if (val) {
+                                                    ref.current.edges.update({
+                                                        ...ed,
+                                                        // label: sum.toString(),
+                                                        width: 2,
+                                                        color: "#ff0000",
+                                                    });
+                                                    // console.log("lol:)", sum);
+                                                    console.log("else if");
+                                                    // state[ind].distance  = sum;
                                                 }
                                             });
                                             PQ.enqueue(new Node(state[ind].id, state[ind].distance));
@@ -198,13 +260,14 @@ function Dijkstra() {
                                             setsol(
                                                 "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                             );
-                                            console.log("time", t);
+                                            // console.log("time", t);
                                         }
-
-                                    });
-                                    if (lol === 1) { lol = 0; await sleep(t * 750); }
+                                        // });
+                                    }
+                                    if (lol === 1) { lol = 0; await sleep(t * 1000); }
+                                    setV(2);
                                 }
-                                setV(4);
+                                setV(7);
                                 const [path, cost] = getpath(state, end);
                                 color(path, "#00ff00", ref.current, bi);
                                 if (cost !== Infinity)
@@ -214,6 +277,7 @@ function Dijkstra() {
                                     resetNetwork(ref.current);
                                 }
                                 setsolving(false);
+                                // setV(0);
                             }}
                         >
                             Dijkstra Steps</Solve>
@@ -221,32 +285,45 @@ function Dijkstra() {
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={2} >
-                    <Grid.Column width={8}>
-                        {sol && <Segment color='green' inverted>{sol}</Segment>}
+                    <Grid.Column computer={8} mobile={16}>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.19.1/vis-network.min.css"></link>
                         <Graph
-                            style={{ height: "500px", width: "100%" }}
+                            style={{ height: "80vh" }}
                             graph={graph}
                             options={options}
                             ref={ref}
                         />
+                        {sol && <Segment style={{ height: "10vh" }} color='green' inverted>{sol}</Segment>}
                     </Grid.Column>
-                    <Grid.Column width={8}>
-                        <Table.Row ><Table.Cell><Label ribbon color='green'>Dijkstra's Algorithm</Label></Table.Cell></Table.Row>
-                        <Table >
-                            <Table.Body>
-                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 4) % 5]} >
-                                    <pre>{"d - distance array of each node from start\nPQ - Priority Queue"}</pre>
+                    <Grid.Column mobile={16} computer={8}>
+                        <Table.Row size='small'><Table.Cell><Label ribbon color='green'>PSEUDO CODE</Label></Table.Cell></Table.Row>
+                        <Table size='small' >
+                            <Table.Body >
+                                <Table.Row textAlign='left'><Table.Cell height='5' bgcolor={ColorArray[(V + 7) % 8]} >
+                                    <pre>{"BEGIN"}</pre>
                                 </Table.Cell></Table.Row>
-                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 3) % 5]} >
-                                    <pre>{"for(int i=0;i<nodes;i++){\n\td[i]=Infinity\n}\nd[Start]=0\nPQ.push(Start)"}</pre>
+                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 6) % 8]} >
+                                    <pre>{"d(v[1])=0\nfor i=2,3,4 ... n"}</pre>
+                                    <pre>{"\td(v[i])=∞,prevoius(v[i])=NULL"}</pre>
                                 </Table.Cell></Table.Row>
-                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 2) % 5]} >
-                                    <pre>{"while(PQ.length>0){\n\t A = PQ.pop()\n\tfor each NEIGHBOUR(B) of A {"}</pre>
+                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 5) % 8]} >
+                                    <pre>{"while queue ≠ ∅"}</pre>
                                 </Table.Cell></Table.Row>
-                                < Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 1) % 5]} >
-                                    <pre>{"\t\tif(d[B]<(d[A]+distance(A-B))){\n\t\t\td[B]=d[A]+distance(A-B))\n\t\t\tPQ.push({B,d[B])\n\t\t}\n\t}\n}"}</pre>
+                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 4) % 8]} >
+                                    <pre>{"\tU = queue.min()"}</pre>
                                 </Table.Cell></Table.Row>
-                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V) % 5]} ><pre>{"return distance[End]"}</pre> </Table.Cell></Table.Row>
+                                < Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 3) % 8]} >
+                                    <pre>{"\tfor all (U,V) ∈ EDGES E\n\t\tdist = d(U) + l(U,V)"}</pre>
+                                </Table.Cell></Table.Row>
+                                < Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 2) % 8]} >
+                                    <pre>{"\t\tif V ∈ queue AND d(V) > dist"}</pre>
+                                    <pre>{"\t\t\td(V) = dist, previous(V)=U"}</pre>
+                                </Table.Cell></Table.Row>
+                                < Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 1) % 8]} >
+                                    <pre>{"\t\tElse if previous(V) == NULL"}</pre>
+                                    <pre>{"\t\t\td(V) = dist, previous(V)=U\n\t\t\tqueue.insert(V,dist)"}</pre>
+                                </Table.Cell></Table.Row>
+                                <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V) % 8]} ><pre>{"End"}</pre> </Table.Cell></Table.Row>
                             </Table.Body>
                         </Table>
                     </Grid.Column>
