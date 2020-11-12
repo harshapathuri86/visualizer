@@ -46,6 +46,12 @@ class PriorityQueue {
         this.bubbleUp();
         return this.values
     }
+    has(node) {
+        for (let i = 0; i < this.values.length; i++) {
+            if (this.values[i].value === node.id && this.values[i].distance === node.distance) return true;
+        }
+        return false;
+    }
     bubbleDown() {
         let parentIndex = 0;
         const length = this.values.length;
@@ -87,11 +93,15 @@ class PriorityQueue {
             parentIndex = indexToSwap;
         }
     }
-    replace(from, dist) {
-        let index = this.values.indexOf(from);
-        console.log("array pq", this.values, from);
+    replace(node, dist) {
+        let index = -1;
+        for (let i = 0; i < this.values.length; i++) {
+            if (this.values[i].value === node.id && this.values[i].distance === node.distance) { index = i; break };
+        }
+        console.log("array pq", this.values, node);
+        if (index < 0) return -1;
         this.values[index].distance = dist;
-        while (index > 0) {
+        while (index >= 1) {
             //get parent index via formula
             let parentIndex = Math.floor((index - 1) / 2);
             //if values is greater than parent, swap the two

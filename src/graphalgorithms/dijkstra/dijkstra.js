@@ -25,19 +25,19 @@ const graph = {
         { id: "5", label: "5" },
     ],
     edges: [
-        { from: "1", to: "2", label: "-10" },
-        { from: "2", to: "3", label: "-10" },
-        { from: "3", to: "4", label: "-10" },
-        { from: "4", to: "5", label: "-10" },
-        { from: "5", to: "1", label: "-10" },
-        // { from: "1", to: "2", label: "6" },
-        // { from: "1", to: "4", label: "1" },
-        // { from: "2", to: "4", label: "2" },
-        // { from: "2", to: "5", label: "1" },
-        // { from: "4", to: "5", label: "1" },
-        // { from: "5", to: "2", label: "2" },
-        // { from: "3", to: "2", label: "5" },
-        // { from: "5", to: "3", label: "5" },
+        // { from: "1", to: "2", label: "-10" },
+        // { from: "2", to: "3", label: "-10" },
+        // { from: "3", to: "4", label: "-10" },
+        // { from: "4", to: "5", label: "-10" },
+        // { from: "5", to: "1", label: "-10" },
+        { from: "1", to: "2", label: "6" },
+        { from: "1", to: "4", label: "1" },
+        { from: "2", to: "4", label: "2" },
+        { from: "2", to: "5", label: "1" },
+        { from: "4", to: "5", label: "1" },
+        { from: "5", to: "2", label: "2" },
+        { from: "3", to: "2", label: "5" },
+        { from: "5", to: "3", label: "5" },
     ]
 };
 
@@ -150,8 +150,8 @@ function Dijkstra() {
                             solving={solving}
                             time={true}
                             solve={async (start, end, t) => {
-                                setV(1);
                                 setsolving(true);
+                                setV(1);
                                 // await sleep(1 * 1000);
                                 resetNetwork(ref.current);
                                 let PQ = new PriorityQueue();
@@ -196,11 +196,11 @@ function Dijkstra() {
                                         // console.log("node", node);
                                         setV(4);
                                         console.log("for each");
-                                        // await sleep(t * 1000);//-------------------------------sleep
+                                        await sleep(t * 1000);//-------------------------------sleep
                                         const ind = findIndex(node.id, state);
                                         let sum = node.distance + nextnode.distance;
-                                        console.log("includes", node.id, PQ.values.includes(node));
-                                        if (PQ.values.includes(node) && state[ind].distance > sum) {
+                                        console.log("includes", node.id, PQ.has(node));
+                                        if (PQ.has(node) && state[ind].distance > sum) {
                                             setV(5);
                                             lol = 1;
                                             // if(state[ind].id===start) {
@@ -263,8 +263,8 @@ function Dijkstra() {
                                             // console.log("time", t);
                                         }
                                         // });
+                                        if (lol === 1) { lol = 0; await sleep(t * 1000); }
                                     }
-                                    if (lol === 1) { lol = 0; await sleep(t * 1000); }
                                     setV(2);
                                 }
                                 setV(7);
