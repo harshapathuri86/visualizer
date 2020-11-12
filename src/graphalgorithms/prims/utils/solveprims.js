@@ -27,10 +27,25 @@ export function getconnectednodes(id, edges) {
     return connectednodes;
 }
 
+export function getconnectededges(id, edges) {
+    let connectededges = [];
+    for (var j = 0; j < edges.length; j++) {
+        let edge = edges[j];
+        if (edge.from === id) {
+            if (connectededges.includes(edge)) continue;
+            connectededges.push(edge);
+        }
+        else if (edge.to === id) {
+            if (connectededges.includes(edge)) continue;
+            connectededges.push(edge);
+        }
+    }
+    return connectededges;
+}
+
 export function solvePrims(nodes, edges, start, network) {
     let PQ = new PriorityQueue();
-    PQ.enqueue(new Node(start, 0));
-    const state = nodes.map((node) => {
+    const state = network.nodes.map((node) => {
         return {
             id: node.id,
             distance: node.id === start ? 0 : Infinity,
@@ -38,73 +53,70 @@ export function solvePrims(nodes, edges, start, network) {
             edge: null,
         };
     });
+    PQ.enqueue(new Node(start, 0));
+    let node;
     while (PQ.values.length >= 1) {
         const nextnode = PQ.dequeue();
-        console.log("dequeue", nextnode);
-        const connectednodes = getconnectednodes(nextnode.value, edges);
-        console.log(connectednodes);
-        for (const node of connectednodes) {
-            const ind = findIndex(node.id, state);
-            network.edges.forEach((ed) => {
-                const val = (((ed.to === node.id && ed.from === nextnode.value) || (ed.from === node.id && ed.to === nextnode.value)));
-                // console.log("values", ed, node, nextnode, state[ind], val)
-                if (val) {
-                    network.edges.update({
-                        ...ed,
-                        width: 2,
-                        color: "#ff0000",
-                    });
-                    // console.log(PQ.has(node));
-                    // console.log("check prev null,has", state[ind], node, state[ind].previous === null, PQ.has(node));
-                    if (PQ.has(node.id) && state[ind].distance > node.distance) {
-                        state[ind].previous = nextnode.value;
-                        state[ind].distance = node.distance;
-                        // network.edges.update({
-                        //     ...state[ind].edge,
-                        //     width: 10,
-                        //     color: "#000000",
-                        // });
-                        console.log("replace", node, node.distance);
-                        PQ.replace(node, node.distance);
-                        network.edges.update({
-                            ...ed,
-                            width: 2,
-                            color: "#00ff00",
-                        });
-                        state[ind].edge = ed;
-                    }
-                    else if (state[ind].previous === null) {
-                        console.log("enqueue", node);
-                        PQ.enqueue(new Node(node.id, node.distance));
-                        state[ind].previous = nextnode.value;
-                        state[ind].distance = node.distance;
-                        state[ind].edge = ed;
-                        network.edges.update({
-                            ...ed,
-                            width: 2,
-                            color: "#00ff00",
-                        });
-                    }
-                }
+        network.nodes.update({
+            id: nextnode.value.toString(),
+            label: nextnode.value.toString(),
+            color: "#ffa500",
+        });
+        const connectededges = getconnectededges(nextnode.value, network.edges.get());
+        // console.log(connectednodes);
+        for (const ed of connectededges) {
+            if (ed.from === nextnode.value) node = ed.to;
+            else node = ed.from;
+            let ind = findIndex(node, state);
+            let lol = 0;
+            let color = ed.color;
+            network.edges.update({
+                ...ed,
+                width: 4,
+                color: "#ffa500",
             });
-        }
-    }
-    color(state, "#00ff00", network);
-}
-
-export function color(state, color, network) {
-    console.log("color", state);
-    state.forEach((node) => {
-        network.edges.forEach((ed) => {
-            const val = (((ed.to === node.id && ed.from === node.previous) || (ed.from === node.id && ed.to === node.previous)) && node.distance.toString() === ed.label);
-            // console.log("values", ed, node, nextnode, state[ind], val)
-            if (val) {
+            let dist = parseInt(ed.label);
+            if (PQ.has(node) && state[ind].distance > dist) {
+                lol = 1;
+                state[ind].previous = nextnode.value;
+                state[ind].distance = dist;
+                network.edges.update({
+                    ...state[ind].edge,
+                    width: null,
+                    color: null,
+                });
+                PQ.replace(node, dist);
                 network.edges.update({
                     ...ed,
-                    color,
-                    // width: 2,
+                    width: 2,
+                    color: "#00ff00",
+                });
+                state[ind].edge = ed;
+            }
+            else if (state[ind].previous === null) {
+                lol = 1;
+                PQ.enqueue(new Node(node, dist));
+                state[ind].previous = nextnode.value;
+                state[ind].distance = dist;
+                state[ind].edge = ed;
+                network.edges.update({
+                    ...ed,
+                    width: 2,
+                    color: "#00ff00",
                 });
             }
+            else {
+                network.edges.update({
+                    ...ed,
+                    width: 2,
+                    color,
+                });
+            }
+        }
+        network.nodes.update({
+            id: nextnode.value.toString(),
+            label: nextnode.value.toString(),
+            color: "#00ff00",
         });
-    });
+    }
 }

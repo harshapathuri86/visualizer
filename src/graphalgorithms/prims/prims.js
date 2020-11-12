@@ -8,7 +8,7 @@ import Deletenode from "./delete"
 import Solve from "./solve";
 import "./prims.css";
 // import remaining files
-import { solvePrims, color, getconnectednodes, findIndex } from "./utils/solveprims";
+import { solvePrims, getconnectededges, findIndex } from "./utils/solveprims";
 import { addedge, deleteedge, deletenode, resetNetwork } from "./utils/network";
 import { PriorityQueue, Node } from './utils/priorityqueue';
 
@@ -61,6 +61,7 @@ function Prims() {
         edges: {
             color: "#000000",
             smooth: true,
+            width: 1,
             arrows: { to: { enabled: false } },
         },
         // height: "100%",
@@ -119,6 +120,9 @@ function Prims() {
                                     "PRIORITY QUEUE : " + Valarray.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                 );
                                 await sleep(t * 1000);
+                                setV(2);
+                                await sleep(t * 1000);
+                                let node;
                                 // console.log("start", start);
                                 while (PQ.values.length >= 1) {
                                     setV(3);
@@ -136,93 +140,88 @@ function Prims() {
                                     });
                                     await sleep(t * 1000);
                                     setV(4);
-                                    const connectednodes = getconnectednodes(nextnode.value, ref.current.edges.get());
-                                    console.log(connectednodes);
-                                    for (const node of connectednodes) {
+                                    const connectededges = getconnectededges(nextnode.value, ref.current.edges.get());
+                                    console.log(connectededges);
+                                    for (const ed of connectededges) {
+                                        if (ed.from === nextnode.value) node = ed.to;
+                                        else node = ed.from;
                                         const ind = findIndex(node, state);
                                         // let E = ref.current.edges.get();
                                         // console.log("E", E);
-                                        for (const ed of ref.current.edges.get()) {
-                                            let val = 0;
-                                            // console.log("edges each", ed);
-                                            val = (((ed.to === node && ed.from === nextnode.value) || (ed.from === node && ed.to === nextnode.value)));
-                                            // console.log("values", ed, node, nextnode, state[ind], val)
-                                            if (val) {
-                                                // setV(4);
-                                                let lol = 0;
-                                                let color = ed.color;
-                                                ref.current.edges.update({
-                                                    ...ed,
-                                                    width: 4,
-                                                    color: "#ffa500",
-                                                });
-                                                console.log("values state nxtnode node ed", state[ind], nextnode, node, ed);
-                                                setV(4);
-                                                await sleep(t * 1000);
-                                                // console.log(PQ.has(node));
-                                                // console.log("check prev null,has", state[ind], node, state[ind].previous === null, PQ.has(node));
-                                                let dist = parseInt(ed.label);
-                                                if (PQ.has(node) && state[ind].distance > dist) {
-                                                    setV(5);
-                                                    lol = 1;
-                                                    state[ind].previous = nextnode.value;
-                                                    state[ind].distance = dist;
-                                                    ref.current.edges.update({
-                                                        ...state[ind].edge,
-                                                        width: null,
-                                                        color: null,
-                                                    });
-                                                    console.log("replace", node, dist);
-                                                    PQ.replace(node, dist);
-                                                    ref.current.edges.update({
-                                                        ...ed,
-                                                        width: 2,
-                                                        color: "#00ff00",
-                                                    });
-                                                    state[ind].edge = ed;
-                                                    let arr = PQ.values;
-                                                    arr.sort(async function (a, b) { return a.distance - b.distance });
-                                                    setsol(
-                                                        "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
-                                                    );
-                                                    await sleep(t * 1000);
-                                                }
-                                                else if (state[ind].previous === null) {
-                                                    setV(6);
-                                                    lol = 1;
-                                                    console.log("enqueue", node);
-                                                    PQ.enqueue(new Node(node, dist));
-                                                    state[ind].previous = nextnode.value;
-                                                    state[ind].distance = dist;
-                                                    state[ind].edge = ed;
-                                                    ref.current.edges.update({
-                                                        ...ed,
-                                                        width: 2,
-                                                        color: "#00ff00",
-                                                    });
-                                                    let arr = PQ.values;
-                                                    arr.sort(async function (a, b) { return a.distance - b.distance });
-                                                    setsol(
-                                                        "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
-                                                    );
-                                                    await sleep(t * 1000);
-                                                }
-                                                else {
-                                                    ref.current.edges.update({
-                                                        ...ed,
-                                                        width: 2,
-                                                        color,
-                                                    });
-                                                }
-                                            }
+                                        // setV(4);
+                                        let color = ed.color;
+                                        ref.current.edges.update({
+                                            ...ed,
+                                            width: 4,
+                                            color: "#ffa500",
+                                        });
+                                        console.log("values state nxtnode node ed", state[ind], nextnode, node, ed);
+                                        setV(4);
+                                        await sleep(t * 1000);
+                                        // console.log(PQ.has(node));
+                                        // console.log("check prev null,has", state[ind], node, state[ind].previous === null, PQ.has(node));
+                                        let dist = parseInt(ed.label);
+                                        if (PQ.has(node) && state[ind].distance > dist) {
+                                            setV(5);
+                                            state[ind].previous = nextnode.value;
+                                            state[ind].distance = dist;
+                                            ref.current.edges.update({
+                                                ...state[ind].edge,
+                                                width: null,
+                                                color: null,
+                                            });
+                                            console.log("replace", node, dist);
+                                            PQ.replace(node, dist);
+                                            ref.current.edges.update({
+                                                ...ed,
+                                                width: 2,
+                                                color: "#00ff00",
+                                            });
+                                            state[ind].edge = ed;
+                                            let arr = PQ.values;
+                                            arr.sort(async function (a, b) { return a.distance - b.distance });
+                                            setsol(
+                                                "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                            );
+                                            await sleep(t * 1000);
+                                        }
+                                        else if (state[ind].previous === null) {
+                                            setV(6);
+                                            console.log("enqueue", node);
+                                            PQ.enqueue(new Node(node, dist));
+                                            state[ind].previous = nextnode.value;
+                                            state[ind].distance = dist;
+                                            state[ind].edge = ed;
+                                            ref.current.edges.update({
+                                                ...ed,
+                                                width: 2,
+                                                color: "#00ff00",
+                                            });
+                                            let arr = PQ.values;
+                                            arr.sort(async function (a, b) { return a.distance - b.distance });
+                                            setsol(
+                                                "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                            );
+                                            await sleep(t * 1000);
+                                        }
+                                        else {
+                                            ref.current.edges.update({
+                                                ...ed,
+                                                width: 2,
+                                                color,
+                                            });
                                         }
                                     }
+                                    ref.current.nodes.update({
+                                        id: nextnode.value.toString(),
+                                        label: nextnode.value.toString(),
+                                        color: "#00ff00",
+                                    });
                                     setV(2);
                                     await sleep(t * 1000);
                                 }
                                 setV(7);
                                 // final mst
-                                // color(state, "#00ff00", ref.current);
                                 setsolving(false);
                             }}
                         >
