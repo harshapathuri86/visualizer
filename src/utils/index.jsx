@@ -42,6 +42,13 @@ export default class IndexTable extends React.Component {
                                 </p>
                             </NavLink>
                         </div>
+                        <div className="col-sm-4 col-6">
+                            <NavLink to="/prims">
+                                <p className="text-dark thumb-title">
+                                    Prims
+                                </p>
+                            </NavLink>
+                        </div>
                     </div>
                 </center>
             </div>

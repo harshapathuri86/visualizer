@@ -2,6 +2,7 @@ import React from 'react';
 import Index from './utils/index'
 import { Route } from 'react-router-dom';
 import Dijkstra from './graphalgorithms/dijkstra/dijkstra';
+import Prims from './graphalgorithms/prims/prims';
 // import Search from './searchingalorithms/searchingvisualiser'
 // import Sort from './sortingalgorithms/sortingvisualiser'
 import './App.css';
@@ -19,17 +20,11 @@ export default function App() {
   //   return <div />
   // };
   return (
-    // <ThemeProvider theme={themeMode}>
     < >
-      {/* <GlobalStyles /> */}
-      {/* <Toggle theme={theme} toggleTheme={toggleTheme} /> */}
       <Route exact path="/" component={Index} />
-      {/* <Route path="/sort" component={Sort} /> */}
-      {/* <Route path="/search" component={Search} /> */}
       <Route path="/dijkstra" component={Dijkstra} />
-      <h6>Algorithm Visualizer you can see this in every page</h6>
+      <Route path="/prims" component={Prims} />
     </>
-    // </ThemeProvider>
   );
 }
 
