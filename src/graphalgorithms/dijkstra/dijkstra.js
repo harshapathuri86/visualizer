@@ -8,7 +8,7 @@ import Deletenode from "./delete"
 import Solve from "./solve";
 import "./dijkstra.css";
 // import remaining files
-import { solveDijkstra, color, getconnectednodes, findIndex, getpath } from "./utils/dijkstrapq";
+import { solveDijkstra, color, getconnectededges, findIndex, getpath, colorstate } from "./utils/dijkstrapq";
 import { addedge, deleteedge, deletenode, resetNetwork } from "./utils/network";
 import { PriorityQueue, Node } from './utils/priorityqueue';
 
@@ -127,29 +127,22 @@ function Dijkstra() {
                         {/* <Divider /> */}
                     </Grid.Column>
                     <Grid.Column computer={6} mobile={16}>
-                        <Solve solving={solving} solve={(start, end) => {
+                        <Solve solving={solving} solve={(start) => {
                             setsolving(true);
-                            console.log(start, end, bi);
-                            const [path, cost] = solveDijkstra(
-                                ref.current.nodes.get(),
-                                ref.current.edges.get(),
-                                start, end, bi, ref.current
-                            );
+                            console.log(start, bi);
                             resetNetwork(ref.current);
-                            color(path, "#00ff00", ref.current, bi);
-                            if (cost !== Infinity)
-                                setsol(path.join("->") + " cost:" + cost);
-                            else {
-                                setsol("No path exists from " + start + " to " + end);
-                                resetNetwork(ref.current);
-                            }
+                            // const [path, cost] = 
+                            solveDijkstra(
+                                start, bi, ref.current
+                            );
                             setsolving(false);
                         }} >Run Dijkstra</Solve>
                         <Divider />
                         <Solve
                             solving={solving}
                             time={true}
-                            solve={async (start, end, t) => {
+                            solve={async (start, t) => {
+                                console.log("TIME", t);
                                 setsolving(true);
                                 setV(1);
                                 // await sleep(1 * 1000);
@@ -161,8 +154,15 @@ function Dijkstra() {
                                         id: node.id,
                                         distance: node.id === start ? 0 : Infinity,
                                         previous: node.id === start ? -1 : null,
+                                        edge: null,
                                     };
                                 });
+                                for (let i = 0; i < state.length; i++) {
+                                    ref.current.nodes.update({
+                                        id: state[i].id,
+                                        label: state[i].id + ":" + state[i].distance,
+                                    });
+                                }
                                 // console.log("network", network);
                                 PQ.enqueue(new Node(start, 0));
                                 Valarray = PQ.values;
@@ -176,84 +176,88 @@ function Dijkstra() {
                                 // console.log("edgesdup", edgesdup);
                                 // console.log("state", state);
                                 // await sleep(3 * 1000);
+                                let node;
                                 setV(2);
                                 while (PQ.values.length >= 1) {
                                     console.log("while");
                                     await sleep(t * 1000);//-----------------------------sleep
-                                    let lol = 0;
                                     // console.log("pq values", PQ.values);
                                     setV(3);
                                     const nextnode = PQ.dequeue();
+                                    ref.current.nodes.update({
+                                        id: nextnode.value,
+                                        color: "orange",
+                                    });
                                     let arr = PQ.values;
                                     arr.sort(function (a, b) { return a.distance - b.distance });
                                     setsol(
                                         "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{ " + n.distance.toString() + " } ").join("<-")
                                     );
                                     await sleep(t * 1000); //-------------------------------sleep
-                                    const connectednodes = getconnectednodes(nextnode.value, ref.current.edges.get(), bi);
-                                    for (const node of connectednodes) {
-                                        // connectednodes.forEach(async (node) => {
+                                    const connectededges = getconnectededges(nextnode.value, ref.current.edges.get(), bi);
+                                    for (const ed of connectededges) {
+                                        // connectededges.forEach(async (node) => {
                                         // console.log("node", node);
+                                        if (ed.from === nextnode.value) node = ed.to;
+                                        else node = ed.from;
+                                        ref.current.edges.update({
+                                            ...ed,
+                                            color: "orange",
+                                            width: 4,
+                                        });
+                                        const ind = findIndex(node, state);
                                         setV(4);
                                         console.log("for each");
                                         await sleep(t * 1000);//-------------------------------sleep
-                                        const ind = findIndex(node.id, state);
-                                        let sum = node.distance + nextnode.distance;
+                                        let dist = parseInt(ed.label) + nextnode.distance;
                                         console.log("includes", node.id, PQ.has(node));
-                                        if (PQ.has(node) && state[ind].distance > sum) {
+                                        if (PQ.has(node) && state[ind].distance > dist) {
                                             setV(5);
-                                            lol = 1;
-                                            // if(state[ind].id===start) {
-                                            //     alert("there is negative cycle in the graph ")
-                                            // }
                                             state[ind].previous = nextnode.value;
-                                            state[ind].distance = sum;
-                                            ref.current.edges.forEach(async (ed, t) => {
-                                                const val = (ed.to === node.id && ed.from === nextnode.value && node.distance.toString() === ed.label);
-                                                // console.log("values", ed, node, nextnode, state[ind], val)
-                                                if (val) {
-                                                    ref.current.edges.update({
-                                                        ...ed,
-                                                        // label: sum.toString(),
-                                                        width: 2,
-                                                        color: "#ff0000",
-                                                    });
-                                                    // console.log("lol:)", sum);
-                                                    console.log("if");
-                                                    // state[ind].distance  = sum;
-                                                }
+                                            state[ind].distance = dist;
+                                            ref.current.edges.update({
+                                                ...state[ind].edge,
+                                                width: 2,
+                                                color: "black",
                                             });
-                                            PQ.replace(node, sum);
+                                            state[ind].edge = ed;
+                                            ref.current.edges.update({
+                                                ...ed,
+                                                width: 3,
+                                                color: "green",
+                                            });
+                                            ref.current.nodes.update({
+                                                id: state[ind].id,
+                                                label: state[ind].id + ":" + state[ind].distance,
+                                            });
+                                            console.log("if");
+                                            PQ.replace(node, dist);
                                             console.log("pq values", PQ.values);
-                                            // PQ.enqueue(new Node(state[ind].id, state[ind].distance));
                                             let arr = PQ.values;
                                             arr.sort(function (a, b) { return a.distance - b.distance });
                                             setsol(
                                                 "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                             );
                                             // console.log("time", t);
+                                            await sleep(t * 1000);
                                         }
-                                        else if (state[ind].previous == null) {
+                                        else if (state[ind].previous === null) {
                                             setV(6);
-                                            lol = 1;
-                                            let sum = node.distance + nextnode.distance;
                                             state[ind].previous = nextnode.value;
-                                            state[ind].distance = sum;
-                                            ref.current.edges.forEach(async (ed, t) => {
-                                                const val = (ed.to === node.id && ed.from === nextnode.value && node.distance.toString() === ed.label);
-                                                // console.log("values", ed, node, nextnode, state[ind], val)
-                                                if (val) {
-                                                    ref.current.edges.update({
-                                                        ...ed,
-                                                        // label: sum.toString(),
-                                                        width: 2,
-                                                        color: "#ff0000",
-                                                    });
-                                                    // console.log("lol:)", sum);
-                                                    console.log("else if");
-                                                    // state[ind].distance  = sum;
-                                                }
+                                            state[ind].distance = dist;
+                                            ref.current.edges.update({
+                                                ...ed,
+                                                // label: sum.toString(),
+                                                width: 3,
+                                                color: "green",
                                             });
+                                            ref.current.nodes.update({
+                                                id: state[ind].id,
+                                                label: state[ind].id + ":" + state[ind].distance,
+                                            });
+                                            // console.log("lol:)", sum);
+                                            console.log("else if");
+                                            // state[ind].distance  = sum;
                                             PQ.enqueue(new Node(state[ind].id, state[ind].distance));
                                             let arr = PQ.values;
                                             arr.sort(function (a, b) { return a.distance - b.distance });
@@ -261,21 +265,25 @@ function Dijkstra() {
                                                 "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                             );
                                             // console.log("time", t);
+                                            await sleep(t * 1000);
+                                        }
+                                        else {
+                                            ref.current.edges.update({
+                                                ...ed,
+                                                // label: sum.toString(),
+                                                width: 2,
+                                                color: "black",
+                                            });
                                         }
                                         // });
-                                        if (lol === 1) { lol = 0; await sleep(t * 1000); }
                                     }
+                                    ref.current.nodes.update({
+                                        id: nextnode.value,
+                                        color: null,
+                                    });
                                     setV(2);
                                 }
                                 setV(7);
-                                const [path, cost] = getpath(state, end);
-                                color(path, "#00ff00", ref.current, bi);
-                                if (cost !== Infinity)
-                                    setsol(path.join("->") + " cost:" + cost);
-                                else {
-                                    setsol("No path exists from " + start + " to " + end);
-                                    resetNetwork(ref.current);
-                                }
                                 setsolving(false);
                                 // setV(0);
                             }}

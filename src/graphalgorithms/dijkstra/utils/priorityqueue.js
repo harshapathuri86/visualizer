@@ -46,9 +46,10 @@ class PriorityQueue {
         this.bubbleUp();
         return this.values
     }
-    has(node) {
+    has(id) {
         for (let i = 0; i < this.values.length; i++) {
-            if (this.values[i].value === node.id && this.values[i].distance === node.distance) return true;
+            // console.log("has check", this.values[i], node);
+            if (this.values[i].value === id) return true;
         }
         return false;
     }
@@ -96,7 +97,7 @@ class PriorityQueue {
     replace(node, dist) {
         let index = -1;
         for (let i = 0; i < this.values.length; i++) {
-            if (this.values[i].value === node.id && this.values[i].distance === node.distance) { index = i; break };
+            if (this.values[i].value === node) { index = i; break };
         }
         console.log("array pq", this.values, node);
         if (index < 0) return -1;

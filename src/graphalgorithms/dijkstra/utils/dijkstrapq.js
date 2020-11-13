@@ -63,6 +63,22 @@ export function getconnectednodes(id, edges, bi) {
     return connectednodes;
 }
 
+export function getconnectededges(id, edges, bi) {
+    let connectededges = [];
+    for (var j = 0; j < edges.length; j++) {
+        let edge = edges[j];
+        if (edge.from === id) {
+            // if (connectededges.includes(edge)) continue;
+            connectededges.push(edge);
+        }
+        else if (edge.to === id && bi) {
+            // if (connectededges.includes(edge)) continue;
+            connectededges.push(edge);
+        }
+    }
+    return connectededges;
+}
+
 export function nextstep(state, edges, bi, nextnode, PQ) {
     // let nextnode = findnextnode(state.table, state.unvisited);
     const connectednodes = getconnectednodes(nextnode.value, edges, bi);
@@ -79,72 +95,91 @@ export function nextstep(state, edges, bi, nextnode, PQ) {
 
 }
 
-export function solveDijkstra(nodes, edges, start, end, bi, network) {
+export function solveDijkstra(start, bi, network) {
     let PQ = new PriorityQueue();
-    // let state = initialstate(nodes, edges, start, PQ, network);
-
-    // console.log("network", network);
-    PQ.enqueue(new Node(start, 0));
-    // console.log("edges", edges);
-    const state = nodes.map((node) => {
+    const state = network.nodes.map((node) => {
         return {
             id: node.id,
             distance: node.id === start ? 0 : Infinity,
-            previous: null,
+            previous: node.id === start ? -1 : null,
+            edge: null,
         };
     });
-    // console.log("edgesdup", edgesdup);
-    console.log("state", state);
-    while (PQ.values.length >= 1) {
-        console.log("pq values", PQ.values);
-        const nextnode = PQ.dequeue();
-        const connectednodes = getconnectednodes(nextnode.value, edges, bi);
-        connectednodes.forEach((node) => {
-            const ind = findIndex(node.id, state);
-            if (state[ind].distance > node.distance + nextnode.distance) {
-                state[ind].previous = nextnode.value;
-                state[ind].distance = node.distance + nextnode.distance;
-                network.edges.forEach((ed) => {
-                    const val = (ed.to === node.id && ed.from === nextnode.value && node.distance.toString() === ed.label);
-                    console.log("values", ed, node, nextnode, state[ind], val)
-                    let sum = node.distance + nextnode.distance;
-                    if (val) {
-                        network.edges.update({
-                            ...ed,
-                            // label: sum.toString(),
-                            width: 2,
-                            color: "#ff0000",
-                        });
-                        console.log("lol:)", sum);
-                        // state[ind].distance  = sum;
-                        node.distance = sum;
-                    }
-                });
-                PQ.enqueue(new Node(state[ind].id, state[ind].distance));
-            }
+    for (let i = 0; i < state.length; i++) {
+        network.nodes.update({
+            id: state[i].id,
+            label: state[i].id + ":" + state[i].distance,
         });
     }
-    return getpath(state, end);
-}
-
-export function color(path, color, network, bi) {
-    console.log("path", path);
-    const finalpath = path.join("->");
-    console.log("final path", finalpath);
-    path.forEach((id) => {
+    PQ.enqueue(new Node(start, 0));
+    let node;
+    while (PQ.values.length >= 1) {
+        const nextnode = PQ.dequeue();
         network.nodes.update({
-            id: id,
-            label: id,
-            color,
+            id: nextnode.value,
+            color: "orange",
         });
-    });
-    network.edges.forEach((edge) => {
-        if (finalpath.includes(edge.from + "->" + edge.to) || (bi && finalpath.includes(edge.to + "->" + edge.from))) {
+        const connectededges = getconnectededges(nextnode.value, network.edges.get(), bi);
+        for (const ed of connectededges) {
+            if (ed.from === nextnode.value) node = ed.to;
+            else node = ed.from;
             network.edges.update({
-                ...edge,
-                color,
-                width: 2,
+                ...ed,
+                color: "orange",
+                width: 4,
             });
+            const ind = findIndex(node, state);
+            let dist = parseInt(ed.label) + nextnode.distance;
+            console.log("includes", node, PQ.has(node));
+            if (PQ.has(node) && state[ind].distance > dist) {
+                state[ind].previous = nextnode.value;
+                state[ind].distance = dist;
+                network.edges.update({
+                    ...state[ind].edge,
+                    width: 2,
+                    color: "black",
+                });
+                state[ind].edge = ed;
+                network.edges.update({
+                    ...ed,
+                    width: 3,
+                    color: "green",
+                });
+                network.nodes.update({
+                    id: state[ind].id,
+                    label: state[ind].id + ":" + state[ind].distance,
+                });
+                PQ.replace(node, dist);
+            }
+            else if (state[ind].previous == null) {
+                state[ind].previous = nextnode.value;
+                state[ind].distance = dist;
+                state[ind].edge = ed;
+                network.edges.update({
+                    ...ed,
+                    width: 3,
+                    color: "green",
+                });
+                network.nodes.update({
+                    id: state[ind].id,
+                    label: state[ind].id + ":" + state[ind].distance,
+                });
+                console.log("else if");
+                PQ.enqueue(new Node(state[ind].id, state[ind].distance));
+            }
+            else {
+                network.edges.update({
+                    ...ed,
+                    // label: sum.toString(),
+                    width: 2,
+                    color: "black",
+                });
+            }
         }
-    });
+        network.nodes.update({
+            id: nextnode.value,
+            color: null,
+        });
+    }
+    console.log("state", state);
 }
