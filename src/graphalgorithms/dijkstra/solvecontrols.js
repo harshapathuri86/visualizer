@@ -11,15 +11,15 @@ const Solve = (props) => {
                 props.time && (
                     <>
                         <input
-                            value={time}
-                            min={0.5} max={5} step={0.5}
-                            placeholder="s" type="range"
-                            onChange={(e) => settime(e.target.value)}></input>
+    value={time}
+    min={0.5} max={5} step={0.5}
+    placeholder="s" type="range"
+    onChange={(e) => settime(e.target.value)}/>
                         <span className="mr-3" >{time} s</span>
                     </>
                 )
             }
-            <Input value={start} placeholder="Start" onChange={(e) => setstart(e.target.value)}></Input>
+            <Input value={start} placeholder="Start" onChange={(e) => setstart(e.target.value)}/>
             {/* <Input value={end} placeholder="End" onChange={(e) => setend(e.target.value)}></Input> */}
             <Button
                 disabled={!start || !time || props.solving}

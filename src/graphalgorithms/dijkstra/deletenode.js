@@ -6,7 +6,7 @@ const Deletenode = (props) => {
     const [id, setid] = useState("");
     return (
         <Container>
-            <Input value={id} placeholder="node" onChange={(e) => setid(e.target.value)}></Input>
+            <Input value={id} placeholder="node" onChange={(e) => setid(e.target.value)}/>
             <Button color='red' disabled={!id} onClick={() => {
                 try {
                     props.onDeletenode(id);

@@ -11,18 +11,18 @@ const Deleteedge = (props) => {
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
                 placeholder="From"
-            ></Input>
+            />
             <Input
-                value={to}
-                onChange={(e) => setTo(e.target.value)}
-                placeholder="To"
-            ></Input>
+    value={to}
+    onChange={(e) => setTo(e.target.value)}
+    placeholder="To"
+    />
             <Input
-                value={w}
-                onChange={(e) => setW(e.target.value)}
-                placeholder="Capacity"
-                type="number"
-            ></Input>
+    value={w}
+    onChange={(e) => setW(e.target.value)}
+    placeholder="Capacity"
+    type="number"
+    />
             <Button
                 disabled={!from || !to | !w | w < 0}
                 onClick={() => {
