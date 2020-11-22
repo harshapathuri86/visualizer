@@ -2,15 +2,14 @@ import React, { useRef, useState } from "react";
 import Graph from "react-graph-vis";
 import { Container, Grid, Divider, Table, Segment, Label } from "semantic-ui-react";
 import Addedge from "./addedge";
-import Addnode from "./node";
+import Addnode from "./addnode";
 import Deleteedge from "./deleteedge";
-import Deletenode from "./delete"
-import Solve from "./solve";
+import Deletenode from "./deletenode"
+import Solve from "./solvecontrols";
 import "./prims.css";
-// import remaining files
-import { solvePrims, getconnectededges, findIndex } from "./utils/solveprims";
-import { addedge, deleteedge, deletenode, resetNetwork } from "./utils/network";
-import { PriorityQueue, Node } from './utils/priorityqueue';
+import { solvePrims, getconnectededges, findIndex } from "./solveprims";
+import { addedge, deleteedge, deletenode, resetNetwork } from "./network";
+import { PriorityQueue, Node } from './priorityqueue';
 
 export function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -64,7 +63,6 @@ function Prims() {
             width: 1,
             arrows: { to: { enabled: false } },
         },
-        // height: "100%",
     };
 
     return (
@@ -83,7 +81,6 @@ function Prims() {
                         <Deleteedge onDeleteedge={(edge) => {
                             deleteedge(edge, ref.current);
                         }} />
-                        {/* <Divider /> */}
                     </Grid.Column>
                     <Grid.Column computer={6} mobile={16}>
                         <Solve solving={solving} solve={(start) => {
@@ -102,7 +99,6 @@ function Prims() {
                             time={true}
                             solve={async (start, t) => {
                                 setsolving(true);
-                                // console.log("EDGES", ref.current.edges, ref.current.edges.get());
                                 setV(1);
                                 resetNetwork(ref.current);
                                 let PQ = new PriorityQueue();
@@ -115,9 +111,8 @@ function Prims() {
                                     };
                                 });
                                 PQ.enqueue(new Node(start, 0));
-                                Valarray = PQ.values;
                                 setsol(
-                                    "PRIORITY QUEUE : " + Valarray.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                    "Heap : " + PQ.values.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                 );
                                 await sleep(t * 1000);
                                 setV(2);
@@ -128,10 +123,8 @@ function Prims() {
                                     setV(3);
                                     const nextnode = PQ.dequeue();
                                     console.log("dequeue", nextnode);
-                                    let arr = PQ.values;
-                                    arr.sort(function (a, b) { return a.distance - b.distance });
                                     setsol(
-                                        "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{ " + n.distance.toString() + " } ").join("<-")
+                                        "U = " + nextnode.value + " Heap : " + PQ.values.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                     );
                                     ref.current.nodes.update({
                                         id: nextnode.value.toString(),
@@ -158,8 +151,6 @@ function Prims() {
                                         console.log("values state nxtnode node ed", state[ind], nextnode, node, ed);
                                         setV(4);
                                         await sleep(t * 1000);
-                                        // console.log(PQ.has(node));
-                                        // console.log("check prev null,has", state[ind], node, state[ind].previous === null, PQ.has(node));
                                         let dist = parseInt(ed.label);
                                         if (PQ.has(node) && state[ind].distance > dist) {
                                             setV(5);
@@ -178,10 +169,8 @@ function Prims() {
                                                 color: "#00ff00",
                                             });
                                             state[ind].edge = ed;
-                                            let arr = PQ.values;
-                                            arr.sort(async function (a, b) { return a.distance - b.distance });
                                             setsol(
-                                                "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                                "U = " + nextnode.value + " Heap : " + PQ.values.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                             );
                                             await sleep(t * 1000);
                                         }
@@ -197,10 +186,8 @@ function Prims() {
                                                 width: 2,
                                                 color: "#00ff00",
                                             });
-                                            let arr = PQ.values;
-                                            arr.sort(async function (a, b) { return a.distance - b.distance });
                                             setsol(
-                                                "PRIORITY QUEUE : " + arr.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
+                                                "U = " + nextnode.value + " Heap : " + PQ.values.map((n) => n.value.toString() + "{" + n.distance.toString() + "}").join("<-")
                                             );
                                             await sleep(t * 1000);
                                         }
@@ -221,11 +208,14 @@ function Prims() {
                                     await sleep(t * 1000);
                                 }
                                 setV(7);
-                                // final mst
                                 setsolving(false);
                             }}
                         >
                             Prims Steps</Solve>
+                        <Divider />
+                        <Segment style={{ height: "10vh" }} >
+                            {sol}
+                        </Segment>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={2} >

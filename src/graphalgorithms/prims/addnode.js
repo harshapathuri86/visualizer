@@ -5,7 +5,7 @@ const Addnode = (props) => {
     const [node, setnode] = useState();
     return (
         <Container>
-            <Input onChange={(e) => setnode(e.target.value)} placeholder="node" ></Input>
+            <Input onChange={(e) => setnode(e.target.value)} placeholder="node" />
             <Button disabled={!node} onClick={() => {
                 const Node = {
                     id: node,

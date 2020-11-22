@@ -10,7 +10,7 @@ export function findIndex(id, table) {
 
 export function getconnectednodes(id, edges) {
     let connectednodes = [];
-    for (var j = 0; j < edges.length; j++) {
+    for (let j = 0; j < edges.length; j++) {
         let edge = edges[j];
         if (edge.from === id) {
             console.log("check", connectednodes, connectednodes.includes(edge.to), edge.from, edge.to);
@@ -29,7 +29,7 @@ export function getconnectednodes(id, edges) {
 
 export function getconnectededges(id, edges) {
     let connectededges = [];
-    for (var j = 0; j < edges.length; j++) {
+    for (let j = 0; j < edges.length; j++) {
         let edge = edges[j];
         if (edge.from === id) {
             if (connectededges.includes(edge)) continue;
@@ -68,7 +68,6 @@ export function solvePrims(nodes, edges, start, network) {
             if (ed.from === nextnode.value) node = ed.to;
             else node = ed.from;
             let ind = findIndex(node, state);
-            let lol = 0;
             let color = ed.color;
             network.edges.update({
                 ...ed,
@@ -77,7 +76,6 @@ export function solvePrims(nodes, edges, start, network) {
             });
             let dist = parseInt(ed.label);
             if (PQ.has(node) && state[ind].distance > dist) {
-                lol = 1;
                 state[ind].previous = nextnode.value;
                 state[ind].distance = dist;
                 network.edges.update({
@@ -94,7 +92,6 @@ export function solvePrims(nodes, edges, start, network) {
                 state[ind].edge = ed;
             }
             else if (state[ind].previous === null) {
-                lol = 1;
                 PQ.enqueue(new Node(node, dist));
                 state[ind].previous = nextnode.value;
                 state[ind].distance = dist;
