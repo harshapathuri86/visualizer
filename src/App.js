@@ -3,27 +3,28 @@ import Index from './utils/index'
 import { Route } from 'react-router-dom';
 import Dijkstra from './graphalgorithms/dijkstra/dijkstra';
 import Prims from './graphalgorithms/prims/prims';
-// import Search from './searchingalorithms/searchingvisualiser'
-// import Sort from './sortingalgorithms/sortingvisualiser'
+import Dfs from './graphalgorithms/dfs/dfs';
+import Bfs from './graphalgorithms/bfs/bfs';
+import Bubblesort from './sortingalgorithms/bubblesort/sort';
+import Insertionsort from './sortingalgorithms/insertionsort/sort';
+import binarysearchtree from './graphalgorithms/Binarytree/BinaryTree';
+import binarySearch from "./binarySearch/binarySearch";
 import './App.css';
-// import { ThemeProvider } from 'styled-components';
-// import { useDarkMode } from './useDarkmode';
-// import { lightTheme, darkTheme } from './theme';
-// import { GlobalStyles } from './global';
-// import Toggle from './utils/toggle';
-
+import Kruskals from './graphalgorithms/kruskals/kruskals';
 
 export default function App() {
-  // const [theme, toggleTheme, componentMounted] = useDarkMode();
-  // const themeMode = theme === 'light' ? lightTheme : darkTheme;
-  // if (!componentMounted) {
-  //   return <div />
-  // };
   return (
-    < >
+    <>
       <Route exact path="/" component={Index} />
       <Route path="/dijkstra" component={Dijkstra} />
       <Route path="/prims" component={Prims} />
+      <Route path="/dfs" component={Dfs} />
+      <Route path="/bfs" component={Bfs} />
+      <Route path="/binarysearch" component={binarySearch} />
+      <Route path="/binarysearchtree" component={binarysearchtree} />
+      <Route path="/krushkal" component={Kruskals} />
+      <Route path="/bubblesort" component={Bubblesort} />
+      <Route path="/insertionsort" component={Insertionsort} />
     </>
   );
 }

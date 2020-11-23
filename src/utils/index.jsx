@@ -11,46 +11,72 @@ export default class IndexTable extends React.Component {
 
     render() {
         return (
-            <div className="container mt-2">
-                <center>
-                    <div className="row mt-2">
-                        <div className="col-sm-4 col-6">
-                            <NavLink to="/search">
-                                <p className="text-dark thumb-title">
-                                    Search
-                                </p>
-                            </NavLink>
-                        </div>
-                        <div className="col-sm-4 col-6">
-                            <NavLink to="/sort">
-                                <p className="text-dark thumb-title">
-                                    Sort
-                                </p>
-                            </NavLink>
-                        </div>
-                        <div className="col-sm-4 col-6">
-                            <NavLink to="/graph">
-                                <p className="text-dark thumb-title">
-                                    Graph
-                                </p>
-                            </NavLink>
-                        </div>
-                        <div className="col-sm-4 col-6">
-                            <NavLink to="/dijkstra">
-                                <p className="text-dark thumb-title">
-                                    Dijkstra
-                                </p>
-                            </NavLink>
-                        </div>
-                        <div className="col-sm-4 col-6">
-                            <NavLink to="/prims">
-                                <p className="text-dark thumb-title">
-                                    Prims
-                                </p>
-                            </NavLink>
-                        </div>
+            <div className="container mt-2" >
+                <div className="row mt-2">
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/binarysearch">
+                            <p className="text-dark thumb-title">
+                                Binary Search
+                            </p>
+                        </NavLink>
                     </div>
-                </center>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/dijkstra">
+                            <p className="text-dark thumb-title">
+                                Dijkstra
+                            </p>
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/prims">
+                            <p className="text-dark thumb-title">
+                                Prims
+                            </p>
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/dfs">
+                            <p className="text-dark thumb-title">
+                                Dfs
+                            </p>
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/bfs">
+                            <p className="text-dark thumb-title">
+                                Bfs
+                            </p>
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/krushkal">
+                            <p className="text-dark thumb-title">
+                                krushkal
+                        </p>
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/binarysearchtree">
+                            <p className="text-dark thumb-title">
+                                Binary Search Tree
+                            </p>
+                        </NavLink>
+                    </div>
+                </div>
+                <div className="col-sm-4 col-6">
+                    <NavLink to="/bubblesort">
+                        <p className="text-dark thumb-title">
+                            Bubble Sort
+                        </p>
+                    </NavLink>
+                </div>
+                <div className="col-sm-4 col-6">
+                    <NavLink to="/insertionsort">
+                        <p className="text-dark thumb-title">
+                            Insertion Sort
+                        </p>
+                    </NavLink>
+                </div>
             </div>
         );
     }
