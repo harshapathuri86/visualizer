@@ -1,10 +1,9 @@
 import React from "react";
 
-import { randomIntFromInterval } from "./utils/randomIntFromInterval.js";
+import { randomIntFromInterval } from "./randomIntFromInterval.js";
 import { binarySearchAnimations } from "./searchingAlgorithms";
-import {Button, Input,Container ,Header,Grid,Segment} from 'semantic-ui-react';
+import { Button, Input, Container, Header, Grid, Segment } from 'semantic-ui-react';
 import ArrayTile from "./arrayTile";
-// import BackBar from "./../../utils/backbar";
 //Stylesheets
 import "./binarySearch.css";
 let NUMBER_OF_ARRAY_BARS = 20;
@@ -128,14 +127,14 @@ export default class BinarySearch extends React.Component {
                         <Header as='h2'> Binary Search</Header>
                     </Grid.Row>
                     <Grid.Row>
-                        <Segment.Group   horizontal>
+                        <Segment.Group horizontal>
                             <Segment>
                                 <Input fluid={true}
-                                       type={"number"}
-                                       id="binarySearchTargetVal"
+                                    type={"number"}
+                                    id="binarySearchTargetVal"
                                     // className="form-control"
                                     label={"Search for"}
-                                    // placeholder="Search for"
+                                // placeholder="Search for"
                                 />
                             </Segment>
                             <Segment>
@@ -154,14 +153,14 @@ export default class BinarySearch extends React.Component {
                             </Segment>
                             <Segment>
                                 <Input fluid={true}
-                                       type={"number"}
-                                       label={"Array size"}
-                                       placeholder={NUMBER_OF_ARRAY_BARS}
-                                       onChange={(e)=>{
-                                           NUMBER_OF_ARRAY_BARS=e.target.value;
-                                           console.log("NUM",NUMBER_OF_ARRAY_BARS,1000/NUMBER_OF_ARRAY_BARS);
-                                           this.resetArray();
-                                       }}/>
+                                    type={"number"}
+                                    label={"Array size"}
+                                    placeholder={NUMBER_OF_ARRAY_BARS}
+                                    onChange={(e) => {
+                                        NUMBER_OF_ARRAY_BARS = e.target.value;
+                                        console.log("NUM", NUMBER_OF_ARRAY_BARS, 1000 / NUMBER_OF_ARRAY_BARS);
+                                        this.resetArray();
+                                    }} />
                             </Segment>
                             <Segment>
                                 <Button
@@ -179,7 +178,7 @@ export default class BinarySearch extends React.Component {
                     </Grid.Row>
                 </Grid>
                 {!found ? (
-                    <p className="not-found" style={{fontSize:30}}>{msgAfterExecution}</p>
+                    <p className="not-found" style={{ fontSize: 30 }}>{msgAfterExecution}</p>
                 ) : null}
                 <br />
                 {array.map((value, idx) => (
