@@ -44,7 +44,6 @@ function Kruskals() {
     for (let i = 0; i < 8; i++) ColorArray.push('white');
     ColorArray[7] = 'pink';
     const [V, setV] = useState("");
-    var Valarray = [];
     const options = {
         interaction: { hover: true },
         manipulation: {

@@ -59,7 +59,6 @@ function Dijkstra() {
     for (let i = 0; i < 8; i++) ColorArray.push('white');
     ColorArray[7] = 'pink';
     const [V, setV] = useState("");
-    let Valarray = [];
     const options = {
         interaction: { hover: true },
         manipulation: {
@@ -295,7 +294,7 @@ function Dijkstra() {
                                 </Table.Cell></Table.Row>
                                 < Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V + 1) % 8]} >
                                     <pre>{"\t\tElse if previous(V) == NULL"}</pre>
-                                    <pre>{"\t\t\td(V) = dist, previous(V)=U\n\t\t\Q.insert(V,dist)"}</pre>
+                                    <pre>{"\t\t\td(V) = dist, previous(V)=U\n\t\tQ.insert(V,dist)"}</pre>
                                 </Table.Cell></Table.Row>
                                 <Table.Row textAlign='left'><Table.Cell bgcolor={ColorArray[(V) % 8]} ><pre>{"End"}</pre> </Table.Cell></Table.Row>
                             </Table.Body>

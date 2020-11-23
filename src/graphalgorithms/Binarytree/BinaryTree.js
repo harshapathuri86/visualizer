@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
 import Graph from "react-graph-vis";
-import { Container, Grid, Divider, Table, Segment, Label } from "semantic-ui-react";
+import { Container, Grid, Divider, Table, Label } from "semantic-ui-react";
 import Addnode from "./addnode";
 import Findnode from "./findnode";
 import Deletenode from "./deletenode"
 import Solve from "./solvecontrols";
 import "./BinaryTree.css";
 import { addedge, resetNetwork, deletenode } from "./network";
+
 
 export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -43,19 +44,7 @@ function Binarytree() {
       deleteEdge: true,
     },
     layout: {
-      hierarchical: {
-        enabled: false,
-        // enabled: true,
-        levelSeparation: 150,
-        nodeSpacing: 150,
-        treeSpacing: 200,
-        // blockShifting: true,
-        edgeMinimization: true,
-        parentCentralization: false,
-        direction: 'UD',        // UD, DU, LR, RL
-        sortMethod: "directed",   // hubsize, directed
-        shakeTowards: "roots",
-      }
+      hierarchical: false,
     },
     edges: {
       color: "#000000",
@@ -71,7 +60,7 @@ function Binarytree() {
       <Grid padded celled container doubling width='100hw'>
         <Grid.Row stackable="true" columns={3} divided="true">
           <Grid.Column mobile={16} computer={4}>
-            <Addnode onAddnode={(node) => {
+            <Addnode onAddnode={async (node) => {
               ref.current.nodes.add(node)
               var newdata = data
               var updata = newdata
@@ -79,6 +68,13 @@ function Binarytree() {
               var dir
               while (newdata.id !== null) {
                 prev = newdata
+                ref.current.nodes.update({
+                  id: newdata.id,
+                  label: newdata.id,
+                  color: "green"
+                })
+                await sleep(2 * 1000)
+                resetNetwork(ref.current)
                 if (parseInt(newdata.id) > parseInt(node.id)) {
                   let len = newdata.children.length;
                   while (len < 2) {
