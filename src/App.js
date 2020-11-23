@@ -5,8 +5,14 @@ import Dijkstra from './graphalgorithms/dijkstra/dijkstra';
 import Prims from './graphalgorithms/prims/prims';
 import Dfs from './graphalgorithms/dfs/dfs';
 import Bfs from './graphalgorithms/bfs/bfs';
-import Bubblesort from './sortingalgorithms/bubblesort/sort';
-import Insertionsort from './sortingalgorithms/insertionsort/sort';
+import BubbleSort from './sortingalgorithms/bubblesort/sort';
+import SelectionSort from './sortingalgorithms/selectionsort/sort';
+import InsertionSort from './sortingalgorithms/insertionsort/sort';
+import MergeSort from './sortingalgorithms/mergesort/sort';
+import QuickSort from './sortingalgorithms/quicksort/sort';
+import QuickSort3 from './sortingalgorithms/quicksort3/sort';
+import HeapSort from './sortingalgorithms/heapsort/sort';
+import ShellSort from './sortingalgorithms/shellsort/sort';
 import binarysearchtree from './graphalgorithms/Binarytree/BinaryTree';
 import binarySearch from "./binarySearch/binarySearch";
 import './App.css';
@@ -23,8 +29,15 @@ export default function App() {
       <Route path="/binarysearch" component={binarySearch} />
       <Route path="/binarysearchtree" component={binarysearchtree} />
       <Route path="/krushkal" component={Kruskals} />
-      <Route path="/bubblesort" component={Bubblesort} />
-      <Route path="/insertionsort" component={Insertionsort} />
+      <Route path="/bubblesort" component={BubbleSort} />
+      <Route path="/selectionsort" component={SelectionSort} />
+      <Route path="/insertionsort" component={InsertionSort} />
+      <Route path="/mergesort" component={MergeSort} />
+      <Route path="/quicksort" component={QuickSort} />
+      <Route path="/quicksort3" component={QuickSort3} />
+      <Route path="/shellsort" component={ShellSort} />
+      <Route path="/heapsort" component={HeapSort} />
+
     </>
   );
 }
