@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Container, Input, Button } from "semantic-ui-react";
+import { Container, Button } from "semantic-ui-react";
 
 const Solve = (props) => {
-    const [start, setstart] = useState("1");
+    // const [start, setstart] = useState("1");
     const [time, settime] = useState(1);
     return (
         <Container>

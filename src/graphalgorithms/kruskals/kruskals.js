@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Graph from "react-graph-vis";
-import { Container, Grid, Divider, Table, Segment, Label } from "semantic-ui-react";
+import { Container, Grid, Divider, Table, Label } from "semantic-ui-react";
 import Addedge from "./addedge";
 import Addnode from "./node";
 import Deleteedge from "./deleteedge";
@@ -38,7 +38,6 @@ const graph = {
 
 function Kruskals() {
     const ref = useRef();
-    const [sol, setsol] = useState("");
     const [solving, setsolving] = useState(false);
     let ColorArray = [];
     for (let i = 0; i < 8; i++) ColorArray.push('white');
@@ -194,7 +193,6 @@ function Kruskals() {
                             options={options}
                             ref={ref}
                         />
-                        {sol && <Segment style={{ height: "10vh" }} color='green' inverted>{sol}</Segment>}
                     </Grid.Column>
                     <Grid.Column mobile={16} computer={8}>
                         <Table.Row size='small'><Table.Cell><Label ribbon color='green'>PSEUDO CODE</Label></Table.Cell></Table.Row>
