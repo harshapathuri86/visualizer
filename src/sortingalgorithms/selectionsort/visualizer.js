@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import './style.css';
+import './../style.css';
 import SortChart from './../utils/SortChart/index';
 import VisualizerControls from './../utils/VisualizerControls/index';
+import { Segment, Input, Grid, Divider } from "semantic-ui-react";
+
 class Visualizer extends Component {
   state = {
     trace: [],
@@ -12,8 +14,12 @@ class Visualizer extends Component {
     groupB: [],
     groupC: [],
     groupD: [],
+    value: -1,
     sortedIndices: [],
     timeoutIds: [],
+    colour1: "null",
+    colour2: "null",
+    speed: 1,
   };
 
   componentDidUpdate(prevProps) {
@@ -36,6 +42,7 @@ class Visualizer extends Component {
       groupB: [],
       groupC: [],
       groupD: [],
+      value: -1,
       sortedIndices: [],
       originalArray: [...array]
     });
@@ -55,13 +62,40 @@ class Visualizer extends Component {
       groupB: visualState.groupB,
       groupC: visualState.groupC,
       groupD: visualState.groupD,
+      value: visualState.value,
       sortedIndices: visualState.sortedIndices
     });
+    if (visualState.value !== -1) {
+      console.log("iam here")
+      if (Number(visualState.value) === 0) {
+        this.setState({ colour1: "pink", colour2: "" });
+      }
+      else {
+        this.setState({ colour1: "", colour2: "grey" });
+      }
+    }
+  };
+
+  changespeed = (input) => {
+    const playing = this.state.timeoutIds.length > 0;
+    this.pause();
+    const speed = Number(input);
+    if (speed > 0) {
+      this.setState({ speed }, () => {
+        if (playing) this.continue();
+      });
+    }
+    else {
+      let speed = 0.25;
+      this.setState({ speed }, () => {
+        if (playing) this.continue();
+      });
+    }
   };
 
   run = (trace) => {
     const timeoutIds = [];
-    const timer = 500; // timer for each step
+    const timer = 500 / this.state.speed; // timer for each step
 
     trace.forEach((item, i) => {
       let timeoutId = setTimeout(
@@ -125,28 +159,44 @@ class Visualizer extends Component {
   render() {
     return (
       <div className="SortVisualizer">
-        <VisualizerControls
-          onPlay={
-            this.state.traceStep === -1
-              ? this.run.bind(this, this.state.trace)
-              : this.continue.bind(this)
-          }
-          onPause={this.pause.bind(this)}
-          onForward={this.stepForward.bind(this)}
-          onBackward={this.stepBackward.bind(this)}
-          playing={this.state.timeoutIds.length > 0}
-        />
-        <SortChart
-          numbers={this.state.array}
-          maxNum={Math.max(...this.state.array)}
-          groupA={this.state.groupA}
-          groupB={this.state.groupB}
-          groupC={this.state.groupC}
-          groupD={this.state.groupD}
-          sortedIndices={this.state.sortedIndices}
-        />
+        <Grid>
+          <Grid.Row>
+            <VisualizerControls
+              onPlay={
+                this.state.traceStep === -1
+                  ? this.run.bind(this, this.state.trace)
+                  : this.continue.bind(this)
+              }
+              onPause={this.pause.bind(this)}
+              onForward={this.stepForward.bind(this)}
+              onBackward={this.stepBackward.bind(this)}
+              playing={this.state.timeoutIds.length > 0}
+            />
+            <Divider />
+            <Input value={this.state.speed} icon='time' label='Speed' size='small' labelPosition='left' type={"number"} step="0.25" onChange={(e) => {
+              this.changespeed(e.target.value);
+            }} />
+          </Grid.Row>
+        </Grid>
+        <Segment>
 
-      </div>
+          <SortChart
+            numbers={this.state.array}
+            maxNum={Math.max(...this.state.array)}
+            groupA={this.state.groupA}
+            groupB={this.state.groupB}
+            groupC={this.state.groupC}
+            groupD={this.state.groupD}
+            sortedIndices={this.state.sortedIndices}
+          />
+        </Segment>
+        <Segment>
+          <pre>{"iterate left_index = 0 to N-1 by incrementing 1 at a time"}</pre>
+          <pre>{"\titerate right_index = i+1 to N-1-left_index 1 at a time"}</pre>
+          <pre className={this.state.colour1}> {"\t\tif(nums[j] < nums[minIndex])"}</pre>
+          <pre className={this.state.colour2}>{"\t\t\tswap(nums, i, minIndex);"}</pre>
+        </Segment>
+      </div >
     );
   }
 }

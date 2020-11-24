@@ -14,11 +14,16 @@ class Visualizer extends Component {
     groupB: [],
     groupC: [],
     groupD: [],
-    value: -1,
     sortedIndices: [],
     timeoutIds: [],
-    colour1: "null",
-    colour2: "null",
+    value: -1,
+    color1: "null",
+    color2: "null",
+    color3: "null",
+    color4: "null",
+    color5: "null",
+    color6: "null",
+    color7: "null",
     speed: 1,
   };
 
@@ -42,7 +47,6 @@ class Visualizer extends Component {
       groupB: [],
       groupC: [],
       groupD: [],
-      value: -1,
       sortedIndices: [],
       originalArray: [...array]
     });
@@ -63,17 +67,22 @@ class Visualizer extends Component {
       groupC: visualState.groupC,
       groupD: visualState.groupD,
       value: visualState.value,
+      color1: "null",
+      color2: "null",
+      color3: "null",
+      color4: "null",
+      color5: "null",
+      color6: "null",
+      color7: "null",
       sortedIndices: visualState.sortedIndices
     });
-    if (visualState.value !== -1) {
-      console.log("iam here")
-      if (Number(visualState.value) === 0) {
-        this.setState({ colour1: "pink", colour2: "" });
-      }
-      else {
-        this.setState({ colour1: "", colour2: "grey" });
-      }
-    }
+    let comp = Number(visualState.value);
+    if (comp === 0) { this.setState({ color5: "ok" }); }
+    if (comp === 1) { this.setState({ color1: "ok" }); this.setState({ color7: "ok" }); }
+    if (comp === 2) { this.setState({ color2: "ok" }); this.setState({ color7: "ok" }); }
+    if (comp === 3) { this.setState({ color3: "ok" }); this.setState({ color7: "ok" }); }
+    if (comp === 4) { this.setState({ color4: "ok" }); this.setState({ color7: "ok" }); }
+    if (comp === 5) { this.setState({ color6: "ok" }); }
   };
 
   changespeed = (input) => {
@@ -92,6 +101,7 @@ class Visualizer extends Component {
       });
     }
   };
+
 
   run = (trace) => {
     const timeoutIds = [];
@@ -179,7 +189,6 @@ class Visualizer extends Component {
           </Grid.Row>
         </Grid>
         <Segment>
-
           <SortChart
             numbers={this.state.array}
             maxNum={Math.max(...this.state.array)}
@@ -191,13 +200,23 @@ class Visualizer extends Component {
           />
         </Segment>
         <Segment>
-          <pre>{"iterate left_index = 0 to N-2 by incrementing 1 at a time"}</pre>
-          <pre>{"\titerate right_index = 0 to N-2-left_index 1 at a time"}</pre>
-          <pre className={this.state.colour1}> {"\t\tif(arr[right_index] > arr[right_index+1])"}</pre>
-          <pre className={this.state.colour2}>{"\t\t\tswap(&arr[right_index],&arr[right_index+1]);"}</pre>
-          {/* <pre>{this.state.speed}</pre> */}
+          <pre>MERGE</pre>
+          <pre>while(leftpointer lessthan leftlength  and rightpointer lessthan rightlenth)</pre>
+          <pre className={this.state.color1}>if(left less or equal right) newarray.push(left)</pre>
+          <pre className={this.state.color2}>if(right less right) newarray.push(right)</pre>
+          <pre className={this.state.color3}>clone the left remaining array that is unused for comparision</pre>
+          <pre className={this.state.color4}>clone the right remaining array that is unused for comparision</pre>
         </Segment>
-      </div >
+        <Segment>
+          <pre>MERGESORT</pre>
+          <pre>untill length is completed </pre>
+          <pre className={this.state.color5}>mergesort first half</pre>
+          <pre className={this.state.color6}>mergesort second half</pre>
+          <pre className={this.state.color7}>merge the two halves</pre>
+        </Segment>
+
+
+      </div>
     );
   }
 }

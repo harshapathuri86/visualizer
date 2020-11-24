@@ -19,6 +19,9 @@ class Visualizer extends Component {
     timeoutIds: [],
     colour1: "null",
     colour2: "null",
+    colour3: "null",
+    colour4: "null",
+    colour5: "null",
     speed: 1,
   };
 
@@ -68,10 +71,19 @@ class Visualizer extends Component {
     if (visualState.value !== -1) {
       console.log("iam here")
       if (Number(visualState.value) === 0) {
-        this.setState({ colour1: "pink", colour2: "" });
+        this.setState({ colour1: "green", colour2: "", colour3: "", colour4: "", colour5: "" });
+      }
+      else if (Number(visualState) === 1) {
+        this.setState({ colour1: "", colour2: "green", colour3: "", colour4: "", colour5: "" });
+      }
+      else if (Number(visualState) === 2) {
+        this.setState({ colour1: "", colour2: "", colour3: "green", colour4: "", colour5: "" });
+      }
+      else if (Number(visualState) === 3) {
+        this.setState({ colour1: "", colour2: "", colour3: "", colour4: "green", colour5: "" });
       }
       else {
-        this.setState({ colour1: "", colour2: "grey" });
+        this.setState({ colour1: "", colour2: "", colour3: "", colour4: "", colour5: "green" });
       }
     }
   };
@@ -191,11 +203,19 @@ class Visualizer extends Component {
           />
         </Segment>
         <Segment>
-          <pre>{"iterate left_index = 0 to N-2 by incrementing 1 at a time"}</pre>
-          <pre>{"\titerate right_index = 0 to N-2-left_index 1 at a time"}</pre>
-          <pre className={this.state.colour1}> {"\t\tif(arr[right_index] > arr[right_index+1])"}</pre>
-          <pre className={this.state.colour2}>{"\t\t\tswap(&arr[right_index],&arr[right_index+1]);"}</pre>
-          {/* <pre>{this.state.speed}</pre> */}
+          <pre>{"QUICK SORT USING 3- WAY PARTITION\n"}</pre>
+          <pre className={this.state.colour2}> {" swap(array, start, end)"}</pre>
+          <pre className={this.state.colour4}> {" swap(array, j, k);"}</pre>
+          <pre className={this.state.colour5}> {"\tpivot_elements = i - start;\n \ti = i- 1;\n\tj = j - 1;\n\n\twhile (i >= start)\n \t{\n\t\tswap(array, i, j);\n\t\ti = i - 1;\n\t\tj = j -  1;\n\t}"}</pre>
+        </Segment>
+        <Segment>
+          <pre>{" Iterate left_index = 0 to N by incrementing 1 at a time"}</pre>
+          <pre className={this.state.colour1}> {"\tpiviot = rand(start,end)"}</pre>
+          <pre className={this.state.colour2}> {" \tswapping"}</pre>
+          <pre className={this.state.colour3}> {"\t\t[pivotStart, pivotEnd] = partition(array, start, end"}</pre>
+          <pre className={this.state.colour4}> {"\t\tMove the elements less than piviot to to lesser list "}</pre>
+          <pre className={this.state.colour5}> {"\t\tMove pivot_elements to center"}</pre>
+          <pre>{" \trecursiveQuickSort3(array, start, pivotStart) \n\trecursiveQuickSort3(array, pivotEnd, end)\n\trecursiveQuickSort3(nums, 0, nums.length)"}</pre>
         </Segment>
       </div >
     );

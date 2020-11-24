@@ -10,18 +10,18 @@
 .grey{
   background-color : var(--gray);
 }
+.yellow{
+  background-color: var(--pink);
+}
+.red{
+  background-color: var(--red);
+}
+.green{
+  background-color: var(--green);
+}
 .pink{
   background-color: var(--pink);
 }
-
-.red{
-    background-color : var(--red);
-  }
-.blue{
-    background-color: var(--blue);
-  }
-  
-
-.Container{
-  margin: 1rem 1rem ;
+.ok{
+  background-color: var(--green);
 }

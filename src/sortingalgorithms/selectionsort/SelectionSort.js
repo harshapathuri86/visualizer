@@ -10,27 +10,27 @@ const SelectionSort = (nums) => {
     let minIndex = i;
     for (let j = i + 1; j < nums.length; j++) {
       // Visualize: comparing A[j] to A[minIndex]
-      addToTrace(trace, nums, lastSorted(trace), [minIndex, j]);
+      addToTrace(trace, nums, 0, lastSorted(trace), [minIndex, j]);
       if (nums[j] < nums[minIndex]) {
         // Visualize: discovered new minIndex
-        addToTrace(trace, nums, lastSorted(trace), [minIndex], [j]);
+        addToTrace(trace, nums, -1, lastSorted(trace), [minIndex], [j]);
         minIndex = j;
         // Visualize: reassign new minIndex;
-        addToTrace(trace, nums, lastSorted(trace), [minIndex], [j]);
+        addToTrace(trace, nums, -1, lastSorted(trace), [minIndex], [j]);
       }
     }
 
     // Visualize: i'th value to be swapped with min value
-    addToTrace(trace, nums, lastSorted(trace), [], [i, minIndex]);
+    addToTrace(trace, nums, -1, lastSorted(trace), [], [i, minIndex]);
 
     swap(nums, i, minIndex);
 
     // Visualize: i'th value has been swapped with min value
-    addToTrace(trace, nums, [...lastSorted(trace), i], [], []);
+    addToTrace(trace, nums, 1, [...lastSorted(trace), i], [], []);
   }
 
   // Visualize: Final item in the array is sorted
-  addToTrace(trace, nums, [...lastSorted(trace), nums.length - 1]);
+  addToTrace(trace, nums, -1, [...lastSorted(trace), nums.length - 1]);
 
   return trace;
 };

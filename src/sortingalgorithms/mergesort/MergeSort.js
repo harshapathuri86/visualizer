@@ -12,31 +12,31 @@ const MergeSort = (nums) => {
     let k = 0;
     while (i < left.length && j < right.length) {
       if (left[i] <= right[j]) {
-        addToTrace(trace, original, [], [], [], [k + start]);
+        addToTrace(trace, original, 1, [], [], [], [k + start]);
         original[k + start] = left[i];
         i++;
-        addToTrace(trace, original, [], [], [], [k + start]);
+        addToTrace(trace, original, 1, [], [], [], [k + start]);
       } else {
-        addToTrace(trace, original, [], [], [], [k + start]);
+        addToTrace(trace, original, 2, [], [], [], [k + start]);
         original[k + start] = right[j];
         j++;
-        addToTrace(trace, original, [], [], [], [k + start]);
+        addToTrace(trace, original, 2, [], [], [], [k + start]);
       }
       k++;
     }
     while (i < left.length) {
-      addToTrace(trace, original, [], [], [], [k + start]);
+      addToTrace(trace, original, 3, [], [], [], [k + start]);
       original[k + start] = left[i];
       i++;
       k++;
-      addToTrace(trace, original, [], [], [], [k + start]);
+      addToTrace(trace, original, 3, [], [], [], [k + start]);
     }
     while (j < right.length) {
-      addToTrace(trace, original, [], [], [], [k + start]);
+      addToTrace(trace, original, 4, [], [], [], [k + start]);
       original[k + start] = right[j];
       j++;
       k++;
-      addToTrace(trace, original, [], [], [], [k + start]);
+      addToTrace(trace, original, 4, [], [], [], [k + start]);
     }
 
     left.length = 0;
@@ -57,7 +57,7 @@ const MergeSort = (nums) => {
     // Visualize: First Half
     addToTrace(
       trace,
-      original,
+      original, 0,
       [],
       [...Array(midPoint - start).keys()].map((i) => i + start)
     );
@@ -66,7 +66,7 @@ const MergeSort = (nums) => {
     // Visualize: Second Half
     addToTrace(
       trace,
-      original,
+      original, 5,
       [],
       [...Array(end - midPoint).keys()].map((i) => i + midPoint)
     );
@@ -78,7 +78,7 @@ const MergeSort = (nums) => {
   recursiveMergeSort(nums, 0, nums.length);
 
   // Visualize: Mark all elements as sorted
-  addToTrace(trace, nums, [...Array(nums.length).keys()]);
+  addToTrace(trace, nums, -1, [...Array(nums.length).keys()]);
   return trace;
 };
 

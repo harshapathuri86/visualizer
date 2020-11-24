@@ -1,4 +1,4 @@
-import { swap, newTrace, addToTrace, lastSorted, } from './helpers';
+import { swap, newTrace, addToTrace, lastSorted, } from './../helpers';
 
 const BubbleSort = (nums) => {
   const trace = newTrace(nums);

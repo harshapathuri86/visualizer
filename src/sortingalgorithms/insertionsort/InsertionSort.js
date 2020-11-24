@@ -9,20 +9,20 @@ const InsertionSort = (nums) => {
     let value = nums[i];
     let hole = i;
     // Visualize: Hole has been selected for comparison
-    addToTrace(trace, nums, [], [i]);
+    addToTrace(trace, nums, 0, [], [i]);
     while (hole > 0 && nums[hole - 1] > value) {
       // Visualize: Compare hole to value
-      addToTrace(trace, nums, [], [hole], [hole - 1]);
+      addToTrace(trace, nums, 1, [], [hole], [hole - 1]);
       nums[hole] = nums[hole - 1];
       hole -= 1;
       // Visualize: Overwrite hole with hole - 1
-      addToTrace(trace, nums, [], [], [hole, hole + 1]);
+      addToTrace(trace, nums, 2, [], [], [hole, hole + 1]);
     }
     // Visualize: Overwrite hole with value
-    addToTrace(trace, nums, [], [], [], [hole]);
+    addToTrace(trace, nums, 2, [], [], [], [hole]);
     nums[hole] = value;
     // Visualize: value is in sorted position
-    addToTrace(trace, nums, [], [], [], [hole]);
+    addToTrace(trace, nums, -1, [], [], [], [hole]);
   }
 
   // Visualize: Mark all elements as sorted

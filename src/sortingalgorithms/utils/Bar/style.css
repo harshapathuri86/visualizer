@@ -13,7 +13,6 @@
 .Bar_sorted {
   background-color: var(--yellow); /*sorted*/
 }
-
 .Bar_stateD {
   background-color: var(--blue);
 }

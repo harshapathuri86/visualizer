@@ -19,7 +19,10 @@ class Visualizer extends Component {
     timeoutIds: [],
     colour1: "null",
     colour2: "null",
-    speed: 1,
+    colour3: "null",
+    colour4: "null",
+    colour5: "null",
+    speed: 1
   };
 
   componentDidUpdate(prevProps) {
@@ -68,10 +71,19 @@ class Visualizer extends Component {
     if (visualState.value !== -1) {
       console.log("iam here")
       if (Number(visualState.value) === 0) {
-        this.setState({ colour1: "pink", colour2: "" });
+        this.setState({ colour1: "green", colour2: "",colour3: "",colour4:"",colour5:""});
+      }
+      else if(Number(visualState) === 1) {
+        this.setState({ colour1: "", colour2: "green",colour3: "",colour4:"",colour5:""});
+      }
+      else if(Number(visualState) === 2) {
+        this.setState({ colour1: "", colour2: "",colour3: "green",colour4:"",colour5:""});
+      }
+      else if(Number(visualState) === 3) {
+        this.setState({ colour1: "", colour2: "",colour3: "",colour4:"green",colour5:""});
       }
       else {
-        this.setState({ colour1: "", colour2: "grey" });
+        this.setState({ colour1: "", colour2: "",colour3: "",colour4:"",colour5:"green"});
       }
     }
   };
@@ -191,11 +203,24 @@ class Visualizer extends Component {
           />
         </Segment>
         <Segment>
-          <pre>{"iterate left_index = 0 to N-2 by incrementing 1 at a time"}</pre>
-          <pre>{"\titerate right_index = 0 to N-2-left_index 1 at a time"}</pre>
-          <pre className={this.state.colour1}> {"\t\tif(arr[right_index] > arr[right_index+1])"}</pre>
-          <pre className={this.state.colour2}>{"\t\t\tswap(&arr[right_index],&arr[right_index+1]);"}</pre>
-          {/* <pre>{this.state.speed}</pre> */}
+          <pre>{"HEAP SORT"}</pre>
+          <pre className={this.state.colour1}> {"start = (array.length / 2);\n heapsize = array.length;\n for(let i = start; i >= 0; i--)\n {\n   maxHeapify(array, i, heapsize);\n }"}</pre>
+          <pre className={this.state.colour2}> {"swap(array, 0, i);\n heapsize -= 1;"}</pre>
+          <pre className={this.state.colour3}> {"largest = leftChild < heapsize && array[leftChild] > array[i]? leftChild: i;"}</pre>
+          <pre className={this.state.colour4}> {"if (rightChild < heapsize && array[rightChild] > array[largest])\t\n {\n   largest = rightChild\n }"}</pre>
+          <pre className={this.state.colour5}> {"swap(array, i, largest);"}</pre>
+        </Segment>
+        <Segment>
+          <pre>{" Decrement the left_index = N-1 to 0 by 1 at a time"}</pre>
+          <pre className={this.state.colour1}> {"\tCreating a max heap"}</pre>
+          <pre className={this.state.colour2}> {"\tSwapping with last element"}</pre>
+          <pre className={this.state.colour3}> {"\t\tComparing parent and left child"}</pre>
+          <pre className={this.state.colour4}> {"\t\tComparing largest and Right child"}</pre>
+          <pre className={this.state.colour5}> {"\tSwapping parent and Largest child"}</pre>
+
+
+
+        
         </Segment>
       </div >
     );

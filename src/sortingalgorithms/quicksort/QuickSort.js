@@ -20,14 +20,14 @@ const QuickSort = (nums) => {
     let j = start + 1;
 
     // Visualize: Keep pivot marked
-    addToTrace(trace, array, lastSorted(trace), [start]);
+    addToTrace(trace, array, 2, lastSorted(trace), [start]);
 
     while (j <= end) {
       if (array[j] < array[start]) {
         // Visualize: Mark item that is less than pivot
         addToTrace(
           trace,
-          array,
+          array, 3,
           lastSorted(trace),
           [start],
           [j],
@@ -40,7 +40,7 @@ const QuickSort = (nums) => {
         // Visualize: Move item to lesser list
         addToTrace(
           trace,
-          array,
+          array, 3,
           lastSorted(trace),
           [start],
           [i],
@@ -55,7 +55,7 @@ const QuickSort = (nums) => {
     // Visualize: Mark center position
     addToTrace(
       trace,
-      array,
+      array, 4,
       lastSorted(trace),
       [i - 1],
       [],
@@ -67,7 +67,7 @@ const QuickSort = (nums) => {
     // Visualize: Move pivot to center
     addToTrace(
       trace,
-      array,
+      array, 4,
       lastSorted(trace),
       [i - 1],
       [],
@@ -89,17 +89,17 @@ const QuickSort = (nums) => {
     let pivot = choosePivot(array, start, end);
 
     // Visualize: Mark chosen pivot
-    addToTrace(trace, array, lastSorted(trace), [pivot]);
+    addToTrace(trace, array, 0, lastSorted(trace), [pivot]);
 
     swap(array, start, pivot);
 
     // Visualize: Move chosen pivot to start
-    addToTrace(trace, array, lastSorted(trace), [pivot]);
+    addToTrace(trace, array, 1, lastSorted(trace), [pivot]);
 
     pivot = partition(array, start, end);
 
     // Visualize: Mark pivot after partition as sorted
-    addToTrace(trace, array, [...lastSorted(trace), pivot]);
+    addToTrace(trace, array, 5, [...lastSorted(trace), pivot]);
 
     recursiveQuickSort(array, start, pivot - 1);
     recursiveQuickSort(array, pivot + 1, end);

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Input, Icon, Container, Button } from "semantic-ui-react";
 import InsertionSort from './InsertionSort';
-import Visualizer from "./../visualizer";
+import Visualizer from "./visualizer";
+import Navbar from '../../utils/Navbar';
 
 class Sort extends Component {
     state = {
@@ -40,7 +41,8 @@ class Sort extends Component {
         this.setState({ trace });
     };
     render() {
-        return <Container>
+        return <Container fluid>
+            <Navbar text="Insertion Sort" />
             <Button color="green" onClick={() => {
                 this.randomize();
                 this.createTrace();

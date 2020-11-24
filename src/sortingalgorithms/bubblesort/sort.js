@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Input, Icon, Container, Button } from "semantic-ui-react";
 import BubbleSort from './BubbleSort';
 import Visualizer from "./visualizer";
-import '../style.css';
+import './../style.css';
 import Navbar from '../../utils/Navbar';
 class Sort extends Component {
 
@@ -43,26 +43,24 @@ class Sort extends Component {
         this.setState({ trace });
     };
     render() {
-        return (
-            <Container className="Container" fluid>
-                <Navbar text='Bubble Sort' />
-                <Button color="green" onClick={() => {
-                    this.randomize();
-                    this.createTrace();
-                }}>
-                    <Icon name='random' color="black" />Random
+        return <Container className="Container" fluid>
+            <Navbar text="Bubble Sort" />
+            <Button color="green" onClick={() => {
+                this.randomize();
+                this.createTrace();
+            }}>
+                <Icon name='random' color="black" />Random
                     </Button>
-                <Input value={this.state.arraySize} label="Number of bars" labelPosition='left' type={"number"} onChange={(e) => {
-                    this.changesize(e.target.value);
-                    this.randomize();
-                    this.createTrace();
-                }} />
-                <Visualizer
-                    array={this.state.array}
-                    trace={this.state.trace}
-                />
-            </Container>
-        );
+            <Input value={this.state.arraySize} label="Number of bars" labelPosition='left' type={"number"} onChange={(e) => {
+                this.changesize(e.target.value);
+                this.randomize();
+                this.createTrace();
+            }} />
+            <Visualizer
+                array={this.state.array}
+                trace={this.state.trace}
+            />
+        </Container>;
     }
 }
 export default Sort;

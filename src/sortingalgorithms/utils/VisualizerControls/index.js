@@ -13,21 +13,38 @@ const VisualizerControls = ({
         <div className="VisualizerControls">
             <Icon
                 name='step backward'
-                size='big'
+                size='large'
                 onClick={onBackward}
             />
             <Icon
                 name={playing ? 'stop' : 'play'}
-                size='big'
+                size='large'
                 onClick={playing ? onPause : onPlay}
             />
             <Icon
                 name='step forward'
-                size='big'
+                size='large'
                 onClick={onForward}
             />
         </div>
     );
 };
+
+// VisualizerControls.propTypes = {
+//     onPlay: PropTypes.func,
+//     onPause: PropTypes.func,
+//     onBackward: PropTypes.func,
+//     onForward: PropTypes.func,
+//     onRepeat: PropTypes.func,
+//     // onAdjustSpeed: PropTypes.func,
+
+//     playing: PropTypes.bool,
+//     playDisabled: PropTypes.bool,
+//     pauseDisabled: PropTypes.bool,
+//     backwardDisabled: PropTypes.bool,
+//     forwardDisabled: PropTypes.bool,
+//     repeatDisabled: PropTypes.bool,
+//     playbackSpeed: PropTypes.number
+// };
 
 export default VisualizerControls;

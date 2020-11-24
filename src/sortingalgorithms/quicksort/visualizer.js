@@ -14,12 +14,15 @@ class Visualizer extends Component {
     groupB: [],
     groupC: [],
     groupD: [],
-    value: -1,
     sortedIndices: [],
     timeoutIds: [],
-    colour1: "null",
-    colour2: "null",
+    value: -1,
     speed: 1,
+    color0: "null",
+    color1: "null",
+    color5: "null",
+    color3: "null",
+    color4: "null",
   };
 
   componentDidUpdate(prevProps) {
@@ -42,7 +45,6 @@ class Visualizer extends Component {
       groupB: [],
       groupC: [],
       groupD: [],
-      value: -1,
       sortedIndices: [],
       originalArray: [...array]
     });
@@ -63,18 +65,21 @@ class Visualizer extends Component {
       groupC: visualState.groupC,
       groupD: visualState.groupD,
       value: visualState.value,
+      color0: "null",
+      color1: "null",
+      color3: "null",
+      color4: "null",
+      color5: "null",
       sortedIndices: visualState.sortedIndices
     });
-    if (visualState.value !== -1) {
-      console.log("iam here")
-      if (Number(visualState.value) === 0) {
-        this.setState({ colour1: "pink", colour2: "" });
-      }
-      else {
-        this.setState({ colour1: "", colour2: "grey" });
-      }
-    }
+    let comp = Number(visualState.value);
+    if (comp === 0) { this.setState({ color0: "ok" }); }
+    if (comp === 1) { this.setState({ color1: "ok" }); }
+    if (comp === 3) { this.setState({ color3: "ok" }); this.setState({ color5: "ok" }); }
+    if (comp === 4) { this.setState({ color4: "ok" }); this.setState({ color5: "ok" }); }
+    if (comp === 5) { this.setState({ color5: "ok" }); }
   };
+
 
   changespeed = (input) => {
     const playing = this.state.timeoutIds.length > 0;
@@ -179,7 +184,6 @@ class Visualizer extends Component {
           </Grid.Row>
         </Grid>
         <Segment>
-
           <SortChart
             numbers={this.state.array}
             maxNum={Math.max(...this.state.array)}
@@ -191,13 +195,20 @@ class Visualizer extends Component {
           />
         </Segment>
         <Segment>
-          <pre>{"iterate left_index = 0 to N-2 by incrementing 1 at a time"}</pre>
-          <pre>{"\titerate right_index = 0 to N-2-left_index 1 at a time"}</pre>
-          <pre className={this.state.colour1}> {"\t\tif(arr[right_index] > arr[right_index+1])"}</pre>
-          <pre className={this.state.colour2}>{"\t\t\tswap(&arr[right_index],&arr[right_index+1]);"}</pre>
-          {/* <pre>{this.state.speed}</pre> */}
+          <pre>{"PARTITION(array,start,end)"}</pre>
+          <pre className={this.state.color3}>
+            {"i= start+1;j=start+1;\nwhile(j<=end){\nif(array[j]<array[start]){\nswap(array,i,j)\ni+=1;}"}</pre><pre>{"\nj+=1;\n}"}</pre><pre className={this.state.color4}>{"\nswap(array,start,i-1);\nreturn i-1\n}"}
+          </pre>
+          <pre>{"if(start>=end){\n\treturn null;\n}"}</pre>
         </Segment>
-      </div >
+        <Segment>
+          <pre>{"QUICK SORT"}</pre>
+          <pre className={this.state.color0}>{"choosepivot(array,start,end);"}</pre>
+          <pre className={this.state.color1}>{"swap(array,start,pivot);"}</pre>
+          <pre className={this.state.color5}>{"partition(array,start,end)"}</pre>
+          <pre>{"recursiveQuickSort(array, start, pivot - 1);\nrecursiveQuickSort(array, pivot + 1, end);}"}</pre>
+        </Segment>
+      </div>
     );
   }
 }
