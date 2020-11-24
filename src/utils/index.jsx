@@ -62,62 +62,62 @@ export default class IndexTable extends React.Component {
                             </p>
                         </NavLink>
                     </div>
-                </div>
-                <div className="col-sm-4 col-6">
-                    <NavLink to="/bubblesort">
-                        <p className="text-dark thumb-title">
-                            Bubble Sort
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/bubblesort">
+                            <p className="text-dark thumb-title">
+                                Bubble Sort
                         </p>
-                    </NavLink>
-                </div>
-                <div className="col-sm-4 col-6">
-                    <NavLink to="/selectionsort">
-                        <p className="text-dark thumb-title">
-                            Selection Sort
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/selectionsort">
+                            <p className="text-dark thumb-title">
+                                Selection Sort
                         </p>
-                    </NavLink>
-                </div>
-                <div className="col-sm-4 col-6">
-                    <NavLink to="/insertionsort">
-                        <p className="text-dark thumb-title">
-                            Insertion Sort
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/insertionsort">
+                            <p className="text-dark thumb-title">
+                                Insertion Sort
                         </p>
-                    </NavLink>
-                </div>
-                <div className="col-sm-4 col-6">
-                    <NavLink to="/mergesort">
-                        <p className="text-dark thumb-title">
-                            Merge Sort
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/mergesort">
+                            <p className="text-dark thumb-title">
+                                Merge Sort
                         </p>
-                    </NavLink>
-                </div>
-                <div className="col-sm-4 col-6">
-                    <NavLink to="/quicksort">
-                        <p className="text-dark thumb-title">
-                            Quick Sort
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/quicksort">
+                            <p className="text-dark thumb-title">
+                                Quick Sort
                         </p>
-                    </NavLink>
-                </div>
-                <div className="col-sm-4 col-6">
-                    <NavLink to="/quicksort3">
-                        <p className="text-dark thumb-title">
-                            Quick Sort3
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/quicksort3">
+                            <p className="text-dark thumb-title">
+                                Quick Sort3
                         </p>
-                    </NavLink>
-                </div>
-                <div className="col-sm-4 col-6">
-                    <NavLink to="/heapsort">
-                        <p className="text-dark thumb-title">
-                            Heap Sort
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/heapsort">
+                            <p className="text-dark thumb-title">
+                                Heap Sort
                         </p>
-                    </NavLink>
-                </div>
-                <div className="col-sm-4 col-6">
-                    <NavLink to="/shellsort">
-                        <p className="text-dark thumb-title">
-                            Shell Sort
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-4 col-6">
+                        <NavLink to="/shellsort">
+                            <p className="text-dark thumb-title">
+                                Shell Sort
                         </p>
-                    </NavLink>
+                        </NavLink>
+                    </div>
                 </div>
             </div>
         );
