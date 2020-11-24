@@ -4,7 +4,7 @@ import { randomIntFromInterval } from "./randomIntFromInterval.js";
 import { binarySearchAnimations } from "./searchingAlgorithms";
 import { Button, Input, Container, Header, Grid, Segment } from 'semantic-ui-react';
 import ArrayTile from "./arrayTile";
-//Stylesheets
+import Navbar from '../utils/Navbar';
 import "./binarySearch.css";
 let NUMBER_OF_ARRAY_BARS = 20;
 const DEFAULT_COLOR = "#6376f1";
@@ -120,8 +120,8 @@ export default class BinarySearch extends React.Component {
         const { array, found, disabled, msgAfterExecution } = this.state;
 
         return (
-            <Container>
-                {/* <BackBar /> */}
+            <Container fluid>
+                <Navbar text="Binary Search" />
                 <Grid textAlign={"center"}>
                     <Grid.Row>
                         <Header as='h2'> Binary Search</Header>

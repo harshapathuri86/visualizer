@@ -7,7 +7,7 @@ import Deletenode from "./deletenode"
 import Solve from "./solvecontrols";
 import "./BinaryTree.css";
 import { addedge, resetNetwork, deletenode } from "./network";
-
+import Navbar from '../../utils/Navbar';
 
 export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -56,7 +56,8 @@ function Binarytree() {
   };
   var root_data = data.id
   return (
-    <Container style={{ marginTop: "3em" }} inverted="true" bgcolor='red'>
+    <Container fluid>
+      <Navbar text="Binary Search Tree" />
       <Grid padded celled container doubling width='100hw'>
         <Grid.Row stackable="true" columns={3} divided="true">
           <Grid.Column mobile={16} computer={4}>

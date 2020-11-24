@@ -8,7 +8,7 @@ import Deletenode from "./delete"
 import Solve from "./solve";
 import { addedge, deleteedge, deletenode, resetNetwork } from "./network";
 import './dfs.css';
-
+import Navbar from '../../utils/Navbar';
 
 export function getconnectededges(id, edges, bi) {
     let connectededges = [];
@@ -107,7 +107,8 @@ function Dfs() {
     };
 
     return (
-        <Container style={{ marginTop: "3em" }} inverted bgcolor='red'>
+        <Container fluid >
+            <Navbar text="Depth First Search" />
             <Grid padded celled container doubling width='100hw'>
                 <Grid.Row stackable columns={3} divided >
                     <Grid.Column mobile={16} computer={4}>

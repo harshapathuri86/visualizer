@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
 import "./bootstrap.min.css";
-
+import './index.css';
+import { Icon } from 'semantic-ui-react';
 export default class IndexTable extends React.Component {
     constructor(props) {
         super(props);
@@ -11,110 +11,113 @@ export default class IndexTable extends React.Component {
 
     render() {
         return (
-            <div className="container mt-2" >
-                <div className="row mt-2">
-                    <div className="col-sm-4 col-6">
+            <div>
+                <a href='https://github.com/harsha-p/visualizer'>
+                    <Icon name='github' size='huge' style={{ position: 'absolute', right: 0 }} />
+                </a>
+                <div class="ui grid stackable container" style={{ marginTop: 10 }}>
+                    <div class="three wide column" >
                         <NavLink to="/binarysearch">
-                            <p className="text-dark thumb-title">
+                            <p class="link">
                                 Binary Search
                             </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/dijkstra">
-                            <p className="text-dark thumb-title">
-                                Dijkstra
+                            <p class="link">
+                                Dijkstra's algorithm
                             </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/prims">
-                            <p className="text-dark thumb-title">
-                                Prims
+                            <p class="link">
+                                Prim's algorithm
                             </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/dfs">
-                            <p className="text-dark thumb-title">
-                                Dfs
+                            <p class="link">
+                                Depth First Search
                             </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/bfs">
-                            <p className="text-dark thumb-title">
-                                Bfs
+                            <p class="link">
+                                Breadth First Search
                             </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/krushkal">
-                            <p className="text-dark thumb-title">
-                                krushkal
+                            <p class="link">
+                                Krushkal's algorithm
                         </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/binarysearchtree">
-                            <p className="text-dark thumb-title">
+                            <p class="link">
                                 Binary Search Tree
                             </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/bubblesort">
-                            <p className="text-dark thumb-title">
+                            <p class="link">
                                 Bubble Sort
                         </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/selectionsort">
-                            <p className="text-dark thumb-title">
+                            <p class="link">
                                 Selection Sort
                         </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/insertionsort">
-                            <p className="text-dark thumb-title">
+                            <p class="link">
                                 Insertion Sort
                         </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/mergesort">
-                            <p className="text-dark thumb-title">
+                            <p class="link">
                                 Merge Sort
                         </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/quicksort">
-                            <p className="text-dark thumb-title">
+                            <p class="link">
                                 Quick Sort
                         </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
+                    <div class="three wide column">
                         <NavLink to="/quicksort3">
-                            <p className="text-dark thumb-title">
+                            <p class="link">
                                 Quick Sort3
                         </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
-                        <NavLink to="/heapsort">
-                            <p className="text-dark thumb-title">
-                                Heap Sort
+                    <div class="three wide column">
+                        <NavLink to="/shellsort">
+                            <p class="link">
+                                Shell Sort
                         </p>
                         </NavLink>
                     </div>
-                    <div className="col-sm-4 col-6">
-                        <NavLink to="/shellsort">
-                            <p className="text-dark thumb-title">
-                                Shell Sort
+                    <div class="three wide column">
+                        <NavLink to="/heapsort">
+                            <p class="link">
+                                Heap Sort
                         </p>
                         </NavLink>
                     </div>
@@ -123,3 +126,5 @@ export default class IndexTable extends React.Component {
         );
     }
 }
+
+

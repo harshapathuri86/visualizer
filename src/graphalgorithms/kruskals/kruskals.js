@@ -7,7 +7,7 @@ import Deleteedge from "./deleteedge";
 import Deletenode from "./delete"
 import Solve from "./solve";
 import "./kruskals.css";
-// import remaining files
+import Navbar from '../../utils/Navbar';
 import { solvePrims, UnionFind } from "./solvekrushkal";
 import { addedge, deleteedge, deletenode, resetNetwork } from "./network";
 import { PriorityQueue, Node } from './priorityqueue';
@@ -66,7 +66,8 @@ function Kruskals() {
     };
 
     return (
-        <Container style={{ marginTop: "3em" }} inverted="true" bgcolor='red'>
+        <Container fluid >
+            <Navbar text="Krushkal's algorithm" />
             <Grid padded celled container doubling width='100hw'>
                 <Grid.Row stackable="true" columns={3} divided="true">
                     <Grid.Column mobile={16} computer={4}>

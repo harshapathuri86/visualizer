@@ -10,7 +10,7 @@ import "./prims.css";
 import { solvePrims, getconnectededges, findIndex } from "./solveprims";
 import { addedge, deleteedge, deletenode, resetNetwork } from "./network";
 import { PriorityQueue, Node } from './priorityqueue';
-
+import Navbar from '../../utils/Navbar';
 export function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -65,7 +65,8 @@ function Prims() {
     };
 
     return (
-        <Container style={{ marginTop: "3em" }} inverted="true" bgcolor='red'>
+        <Container fluid >
+            <Navbar text="Prim's algorithm" />
             <Grid padded celled container doubling width='100hw'>
                 <Grid.Row stackable="true" columns={3} divided="true">
                     <Grid.Column mobile={16} computer={4}>

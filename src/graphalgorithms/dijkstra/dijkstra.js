@@ -10,7 +10,7 @@ import "./dijkstra.css";
 import { solveDijkstra, getconnectededges, findIndex } from "./solvedijkstra";
 import { addedge, deleteedge, deletenode, resetNetwork } from "./network";
 import { PriorityQueue, Node } from './priorityqueue';
-
+import Navbar from '../../utils/Navbar';
 export function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -81,7 +81,8 @@ function Dijkstra() {
     };
 
     return (
-        <Container style={{ marginTop: "3em" }} inverted bgcolor='red'>
+        <Container fluid >
+            <Navbar text="Dijkstra's algorithm" />
             <Grid padded celled container doubling width='100hw'>
                 <Grid.Row stackable columns={3} divided >
                     <Grid.Column mobile={16} computer={4}>
