@@ -13,17 +13,17 @@ const VisualizerControls = ({
         <div className="VisualizerControls">
             <Icon
                 name='step backward'
-                size='large'
+                size='big'
                 onClick={onBackward}
             />
             <Icon
                 name={playing ? 'stop' : 'play'}
-                size='large'
+                size='big'
                 onClick={playing ? onPause : onPlay}
             />
             <Icon
                 name='step forward'
-                size='large'
+                size='big'
                 onClick={onForward}
             />
         </div>

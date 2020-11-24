@@ -23,7 +23,7 @@ const getListOfBars = (
     let sorted = sortedIndices.includes(i);
 
     let margin =
-      i === numbers.length ? '0' : width > 3 ? '0.50rem' : '0.125rem';
+      i === numbers.length ? '0' : width > 3 ? '0.5rem' : '0.125rem';
     return (
       <Bar
         key={`${i}_${num}`}

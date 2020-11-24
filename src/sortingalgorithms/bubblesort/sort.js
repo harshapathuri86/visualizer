@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Input, Icon, Container, Button } from "semantic-ui-react";
 import BubbleSort from './BubbleSort';
-import Visualizer from "./../visualizer";
+import Visualizer from "./visualizer";
+import '../style.css';
+class Sort extends Component {
 
-class Sort extends Component 
-{
     state = {
         array: [],
         arraySize: 20,
@@ -29,6 +29,7 @@ class Sort extends Component
             this.createTrace
         );
     };
+
     changesize = (size) => {
         size = Number(size);
         size = size > 100 ? 100 : size;
@@ -41,8 +42,7 @@ class Sort extends Component
         this.setState({ trace });
     };
     render() {
-        
-        return <Container>
+        return <Container className="Container">
             <Button color="green" onClick={() => {
                 this.randomize();
                 this.createTrace();
